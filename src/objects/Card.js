@@ -198,21 +198,32 @@ export class Card extends Phaser.GameObjects.Container {
     if (this.scene && this.scene.canClick === false) return;
     if (this.isFlipped && this.scene && this.scene.selectedCards && this.scene.selectedCards.includes(this)) return;
 
+    // Physical haptic vibration for touchscreen kiosk / mobile / tablet
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      try { navigator.vibrate(18); } catch (e) {}
+    }
+
     sounds.playTap();
 
-    // Tactile touch aura pulse around entire card perimeter
+    // Tactile micro-squash press animation (arcade button depress feel)
+    this.scene.tweens.killTweensOf(this);
+    this.setScale(0.95, 0.95);
+
+    // Tactile electric aura pulse around card perimeter
     const w = this.cardWidth;
     const h = this.cardHeight;
     const r = Math.min(36, Math.floor(w * 0.08));
     this.touchAura.clear();
-    this.touchAura.lineStyle(Math.max(4, Math.floor(w * 0.02)), 0xff6b35, 0.95);
+    this.touchAura.lineStyle(Math.max(4, Math.floor(w * 0.025)), 0x00d8f6, 0.95);
     this.touchAura.strokeRoundedRect(-w / 2 - 4, -h / 2 - 4, w + 8, h + 8, r + 4);
 
     this.scene.time.delayedCall(120, () => {
       if (this.touchAura) this.touchAura.clear();
     });
 
-    this.spawnTouchRipple();
+    const touchX = (pointer && typeof pointer.x === 'number') ? pointer.x : this.x;
+    const touchY = (pointer && typeof pointer.y === 'number') ? pointer.y : this.y;
+    this.spawnTouchRipple(touchX, touchY);
 
     if (typeof this.onClick === 'function') {
       this.onClick(this);
@@ -223,23 +234,62 @@ export class Card extends Phaser.GameObjects.Container {
     if (this.touchAura) this.touchAura.clear();
   }
 
-  spawnTouchRipple() {
-    const ripple = this.scene.add.graphics();
-    ripple.setPosition(this.x, this.y);
-    ripple.lineStyle(3, 0xf05423, 0.85);
-    ripple.strokeCircle(0, 0, Math.min(this.cardWidth * 0.35, 40));
+  spawnTouchRipple(x = this.x, y = this.y) {
+    // 1. Dual Shockwave Rings (Cyan primary + Orange accent)
+    const ring1 = this.scene.add.graphics();
+    ring1.setPosition(x, y);
+    ring1.lineStyle(3, 0x00d8f6, 0.9);
+    ring1.strokeCircle(0, 0, Math.min(this.cardWidth * 0.25, 32));
+
+    const ring2 = this.scene.add.graphics();
+    ring2.setPosition(x, y);
+    ring2.lineStyle(2, 0xf05423, 0.7);
+    ring2.strokeCircle(0, 0, Math.min(this.cardWidth * 0.18, 22));
 
     this.scene.tweens.add({
-      targets: ripple,
-      scaleX: 2.2,
-      scaleY: 2.2,
+      targets: ring1,
+      scaleX: 2.6,
+      scaleY: 2.6,
       alpha: 0,
-      duration: 180,
+      duration: 200,
       ease: 'Quad.easeOut',
-      onComplete: () => {
-        ripple.destroy();
-      }
+      onComplete: () => ring1.destroy()
     });
+
+    this.scene.tweens.add({
+      targets: ring2,
+      scaleX: 3.2,
+      scaleY: 3.2,
+      alpha: 0,
+      duration: 240,
+      ease: 'Quad.easeOut',
+      onComplete: () => ring2.destroy()
+    });
+
+    // 2. Cyber Touch Sparks (5 radiant micro-particles)
+    const sparkColors = [0x00d8f6, 0xf05423, 0xffffff];
+    for (let i = 0; i < 5; i++) {
+      const spark = this.scene.add.graphics();
+      const col = sparkColors[i % sparkColors.length];
+      spark.fillStyle(col, 1);
+      spark.fillCircle(0, 0, 2.5);
+      spark.setPosition(x, y);
+
+      const angle = (i / 5) * Math.PI * 2 + (Math.random() - 0.5) * 0.6;
+      const dist = 28 + Math.random() * 32;
+
+      this.scene.tweens.add({
+        targets: spark,
+        x: x + Math.cos(angle) * dist,
+        y: y + Math.sin(angle) * dist,
+        alpha: 0,
+        scaleX: 0.3,
+        scaleY: 0.3,
+        duration: 180 + Math.random() * 60,
+        ease: 'Cubic.easeOut',
+        onComplete: () => spark.destroy()
+      });
+    }
   }
 
   onPointerOver(pointer) {
@@ -270,7 +320,7 @@ export class Card extends Phaser.GameObjects.Container {
   }
 
   // ============================================================
-  // CARD FLIP SEQUENCE (Ultra-Fast 80ms Flip Kinetics)
+  // CARD FLIP SEQUENCE (Dynamic Duration & Smooth Transition)
   // ============================================================
   flip(showFront = true, instant = false, onComplete = null) {
     this.isFlipped = showFront;
@@ -290,13 +340,18 @@ export class Card extends Phaser.GameObjects.Container {
 
     this.scene.tweens.killTweensOf(this);
     this.isAnimating = true;
-    sounds.playFlip();
+    if (showFront) sounds.playFlip();
 
-    // Balanced Smooth & Snappy Flip Sequence (110ms down + 120ms up = 230ms total)
+    // Calculate dynamic duration based on current scaleX (smoothly finishes partial flips with zero pop)
+    const currentScaleX = Math.abs(this.scaleX) || 1;
+    const downDuration = Math.max(35, Math.floor((showFront ? 100 : 85) * currentScaleX));
+    const upDuration = showFront ? 115 : 95;
+
     this.scene.tweens.add({
       targets: this,
       scaleX: 0,
-      duration: 110,
+      scaleY: showFront ? 1.03 : 0.98, // subtle 3D lift during flip
+      duration: downDuration,
       ease: 'Quad.easeIn',
       onComplete: () => {
         this.isFlipped = showFront;
@@ -306,8 +361,9 @@ export class Card extends Phaser.GameObjects.Container {
         this.scene.tweens.add({
           targets: this,
           scaleX: 1,
-          duration: 120,
-          ease: 'Back.easeOut',
+          scaleY: 1,
+          duration: upDuration,
+          ease: showFront ? 'Back.easeOut' : 'Quad.easeOut',
           onComplete: () => {
             this.x = this.baseX;
             this.y = this.baseY;

@@ -287,17 +287,32 @@ class SoundManager {
     this.init();
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(640, now);
-    osc.frequency.exponentialRampToValueAtTime(320, now + 0.025);
-    gain.gain.setValueAtTime(0.18, now);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.025);
-    osc.connect(gain);
-    gain.connect(this.sfxGain);
-    osc.start(now);
-    osc.stop(now + 0.025);
+
+    // Crisp high-tech glass click transient
+    const clickOsc = this.ctx.createOscillator();
+    const clickGain = this.ctx.createGain();
+    clickOsc.type = 'sine';
+    clickOsc.frequency.setValueAtTime(1400, now);
+    clickOsc.frequency.exponentialRampToValueAtTime(480, now + 0.02);
+    clickGain.gain.setValueAtTime(0.24, now);
+    clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.02);
+    clickOsc.connect(clickGain);
+    clickGain.connect(this.sfxGain);
+    clickOsc.start(now);
+    clickOsc.stop(now + 0.02);
+
+    // Warm tactile thud body
+    const thudOsc = this.ctx.createOscillator();
+    const thudGain = this.ctx.createGain();
+    thudOsc.type = 'triangle';
+    thudOsc.frequency.setValueAtTime(320, now);
+    thudOsc.frequency.exponentialRampToValueAtTime(140, now + 0.04);
+    thudGain.gain.setValueAtTime(0.2, now);
+    thudGain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+    thudOsc.connect(thudGain);
+    thudGain.connect(this.sfxGain);
+    thudOsc.start(now);
+    thudOsc.stop(now + 0.04);
   }
 
   playClick() {

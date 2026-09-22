@@ -287,6 +287,7 @@ export class GameScene extends Phaser.Scene {
 
       const zone = this.add.zone(panelW / 2, y, btnW, btnH).setInteractive({ useHandCursor: true });
       zone.on('pointerdown', () => {
+        if (navigator.vibrate) navigator.vibrate(20);
         sounds.playClick();
         onClick();
       });
@@ -346,6 +347,7 @@ export class GameScene extends Phaser.Scene {
 
     const restartZone = this.add.zone(restartX, row1Y, restartBtnW, btnH).setInteractive({ useHandCursor: true });
     restartZone.on('pointerdown', () => {
+      if (navigator.vibrate) navigator.vibrate(20);
       sounds.playClick();
       this.restartGame();
     });
@@ -366,6 +368,7 @@ export class GameScene extends Phaser.Scene {
 
     const menuZone = this.add.zone(menuX, row1Y, menuBtnW, btnH).setInteractive({ useHandCursor: true });
     menuZone.on('pointerdown', () => {
+      if (navigator.vibrate) navigator.vibrate(20);
       sounds.playClick();
       this.returnToMenu();
     });
@@ -673,26 +676,29 @@ export class GameScene extends Phaser.Scene {
     if (!this.canClick || this.isGameOver || this.isPaused || !card || card.isMatched) return;
 
     // 1. RAPID-TAPPING OVERRIDE:
-    // If player taps a card while a previous mismatch was pending or showing,
-    // IMMEDIATELY snap mismatched cards back face-down, cancel timer, and process this tap!
+    // If player taps while a previous mismatch was showing,
+    // Smoothly and briskly flip mismatched cards face-down (NEVER snap instantly!)
     if (this.pendingMismatch) {
       if (this.mismatchTimer) {
         this.mismatchTimer.remove();
         this.mismatchTimer = null;
       }
-      this.pendingMismatch.forEach(c => {
-        if (c && !c.isMatched) c.flip(false, true); // Instant snap down
-      });
+      const oldMismatch = this.pendingMismatch;
       this.pendingMismatch = null;
+      oldMismatch.forEach(c => {
+        if (c && !c.isMatched && c.isFlipped) {
+          c.flip(false); // Smooth, natural flip down
+        }
+      });
     }
 
     // 2. Ignore click if card is already open in current selection
     if (this.selectedCards.includes(card)) return;
 
-    // 3. Safety check: if somehow 2 cards are already selected, clear them
+    // 3. Safety check: if somehow 2 cards are already selected, smoothly flip them down
     if (this.selectedCards.length >= 2) {
       this.selectedCards.forEach(c => {
-        if (c && !c.isMatched) c.flip(false, true);
+        if (c && !c.isMatched && c.isFlipped) c.flip(false);
       });
       this.selectedCards = [];
     }
@@ -712,6 +718,12 @@ export class GameScene extends Phaser.Scene {
       if (card1.cardData.id === card2.cardData.id) {
         // MATCH!
         sounds.playMatch();
+        if (typeof navigator !== 'undefined' && navigator.vibrate) {
+          try { navigator.vibrate([35, 30, 45]); } catch (e) {}
+        }
+        if (this.cameras && this.cameras.main) {
+          this.cameras.main.shake(90, 0.003); // Subtle tactile impulse
+        }
         card1.setMatched();
         card2.setMatched();
 
@@ -744,21 +756,23 @@ export class GameScene extends Phaser.Scene {
       } else {
         // MISMATCH!
         sounds.playMismatch();
+        if (typeof navigator !== 'undefined' && navigator.vibrate) {
+          try { navigator.vibrate([18, 30, 18]); } catch (e) {}
+        }
+        if (this.cameras && this.cameras.main) {
+          this.cameras.main.shake(60, 0.002);
+        }
         this.comboStreak = 0;
         const mismatchPair = [card1, card2];
         this.pendingMismatch = mismatchPair;
         this.selectedCards = []; // Hand off to pendingMismatch; new taps can immediately form the next pair
 
-        // Balanced auto-flip timeout (450ms), giving clear visual feedback while maintaining snappy pace
-        this.mismatchTimer = this.time.delayedCall(450, () => {
+        // Auto-flip timeout (400ms), giving clear visual recognition while keeping pace rapid
+        this.mismatchTimer = this.time.delayedCall(400, () => {
           if (this.pendingMismatch === mismatchPair) {
-            card1.shakeMismatch(() => {
-              card1.flip(false);
-            });
-            card2.shakeMismatch(() => {
-              card2.flip(false);
-            });
             this.pendingMismatch = null;
+            card1.shakeMismatch();
+            card2.shakeMismatch();
           }
         });
       }

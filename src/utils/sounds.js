@@ -104,6 +104,7 @@ class SoundManager {
     if (!this.menuAudio) {
       this.menuAudio = new Audio('/assets/audio/bgm.mp3');
       this.menuAudio.loop = true;
+      this.menuAudio.preload = 'auto';
     }
 
     this.menuAudio.volume = this.musicMuted ? 0 : this.musicVolume;
@@ -113,11 +114,26 @@ class SoundManager {
         .then(() => {
           this.stopSynthBGM();
         })
-        .catch(() => {
-          this.startSynthBGM();
+        .catch((err) => {
+          // Autoplay policy prevented immediate unmuted playback until user interaction
+          console.warn('[Audio] Autoplay blocked by browser policy; queued for first gesture:', err.message);
+          
+          const unlockHandler = () => {
+            if (this.currentTrack === 'menu' && this.menuAudio && this.menuAudio.paused) {
+              this.menuAudio.play().then(() => this.stopSynthBGM()).catch(() => {});
+            }
+            if (this.ctx && this.ctx.state === 'suspended') {
+              this.ctx.resume().catch(() => {});
+            }
+            ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click'].forEach(evt => {
+              window.removeEventListener(evt, unlockHandler);
+            });
+          };
+
+          ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click'].forEach(evt => {
+            window.addEventListener(evt, unlockHandler, { once: true, passive: true });
+          });
         });
-    } else {
-      this.startSynthBGM();
     }
   }
 
@@ -137,6 +153,7 @@ class SoundManager {
     if (!this.gameAudio) {
       this.gameAudio = new Audio('/assets/audio/The_Final_Combo.mp3');
       this.gameAudio.loop = true;
+      this.gameAudio.preload = 'auto';
     }
 
     this.gameAudio.volume = this.musicMuted ? 0 : this.musicVolume;
@@ -146,11 +163,24 @@ class SoundManager {
         .then(() => {
           this.stopSynthBGM();
         })
-        .catch(() => {
-          this.startSynthBGM();
+        .catch((err) => {
+          console.warn('[Audio] Autoplay blocked for game music:', err.message);
+          const unlockHandler = () => {
+            if (this.currentTrack === 'game' && this.gameAudio && this.gameAudio.paused) {
+              this.gameAudio.play().then(() => this.stopSynthBGM()).catch(() => {});
+            }
+            if (this.ctx && this.ctx.state === 'suspended') {
+              this.ctx.resume().catch(() => {});
+            }
+            ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click'].forEach(evt => {
+              window.removeEventListener(evt, unlockHandler);
+            });
+          };
+
+          ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click'].forEach(evt => {
+            window.addEventListener(evt, unlockHandler, { once: true, passive: true });
+          });
         });
-    } else {
-      this.startSynthBGM();
     }
   }
 

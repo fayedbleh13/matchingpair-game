@@ -1,9 +1,13 @@
 import Phaser from 'phaser';
+import { inject } from '@vercel/analytics';
 import { StartScene } from './scenes/StartScene.js';
 import { GameScene } from './scenes/GameScene.js';
 import { ResultOverlay } from './scenes/ResultOverlay.js';
 import { LeaderboardScene } from './scenes/LeaderboardScene.js';
 import { SettingsScene } from './scenes/SettingsScene.js';
+
+// Initialize Vercel Web Analytics
+inject();
 
 const config = {
   type: Phaser.AUTO,

@@ -21,9 +21,16 @@ export class StartScene extends Phaser.Scene {
     this.createCinematicBackground();
     this.renderUI();
 
-    // Unlock menu audio on first user touch anywhere
-    this.input.once('pointerdown', () => {
+    // 1. Attempt immediate playback on scene load
+    sounds.playMenuMusic();
+
+    // 2. Universal user gesture unlock fallback if browser blocked immediate autoplay
+    const unlockAudio = () => {
       sounds.playMenuMusic();
+    };
+    this.input.once('pointerdown', unlockAudio);
+    ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click'].forEach(evt => {
+      window.addEventListener(evt, unlockAudio, { once: true, passive: true });
     });
 
     this.scale.on('resize', () => {

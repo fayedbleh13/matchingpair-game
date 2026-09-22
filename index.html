@@ -418,16 +418,26 @@
 
         let idleTimerInterval = null;
 
-        // Initial touch/click audio unlocking for Start Menu BGM (bgm.mp3)
+        // Immediate & Universal gesture audio playback for Start Menu BGM (bgm.mp3)
         function tryPlayMenuBGM() {
           if (!startOverlay.classList.contains('hidden')) {
-            if (window.sounds && window.sounds.currentTrack !== 'menu') {
-              window.sounds.playMenuMusic();
+            if (window.sounds) {
+              if (window.sounds.currentTrack !== 'menu' || (window.sounds.menuAudio && window.sounds.menuAudio.paused)) {
+                window.sounds.playMenuMusic();
+              }
             }
           }
         }
-        document.addEventListener('pointerdown', tryPlayMenuBGM);
-        document.addEventListener('keydown', tryPlayMenuBGM);
+        
+        // Attempt immediate playback upon page visit
+        tryPlayMenuBGM();
+        window.addEventListener('DOMContentLoaded', tryPlayMenuBGM);
+        window.addEventListener('load', tryPlayMenuBGM);
+
+        // Fallback: unlock on ANY micro-gesture anywhere on document
+        ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click'].forEach(evt => {
+          document.addEventListener(evt, tryPlayMenuBGM, { once: true, passive: true });
+        });
 
         // 1. START GAME HANDLER -> Switches soundtrack to The_Final_Combo.mp3
         if (startBtn) {

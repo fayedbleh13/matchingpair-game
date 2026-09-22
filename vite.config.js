@@ -33,6 +33,21 @@ export default defineConfig({
       }
     })
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/phaser')) {
+            return 'phaser-engine';
+          }
+          if (id.includes('node_modules/@vercel/analytics')) {
+            return 'vercel-analytics';
+          }
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1600
+  },
   server: {
     port: 3000,
     open: true

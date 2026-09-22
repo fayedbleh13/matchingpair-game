@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #050a17; /* Deep obsidian backdrop framing 9:16 kiosk on widescreen */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   9:16 ARCADE KIOSK FRAME — Strict 9:16 aspect ratio regardless of device
+   ========================================================================== */
+#kiosk-frame {
+  position: relative;
+  overflow: hidden;
+  background-color: #0b1325;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 94, 0, 0.2);
+  /* Responsive calculation: always maximum possible 9:16 rectangle fitting inside viewport */
+  width: min(100vw, calc(100vh * 9 / 16));
+  height: min(100vh, calc(100vw * 16 / 9));
+  aspect-ratio: 9 / 16;
+}
+
+#game-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #0b1325;
+}
+
+canvas {
+  display: block;
+  touch-action: none;
+}
+
+#cyber-start-overlay,
+#cyber-result-overlay,
+#prize-modal {
+  pointer-events: auto;
+  touch-action: auto;
+}
+
+#cyber-start-overlay button,
+#cyber-result-overlay button,
+#prize-modal button {
+  pointer-events: auto;
+  touch-action: manipulation;
+}

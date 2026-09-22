@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        console.error("GLOBAL_ERROR:", msg, "at", url, line, col, error ? error.stack : "");
+        window.__lastError = { msg, url, line, col, stack: error ? error.stack : "" };
+      };
+      window.onunhandledrejection = function(e) {
+        console.error("PROMISE_REJECTION:", e.reason);
+        window.__lastError = { msg: String(e.reason) };
+      };
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#0b1325" />
+    <title>SonicWall Cyber Match | Threat Defense Challenge</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+
+    <!-- Canvas Confetti for Victory Celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+    <!-- Tailwind CDN with Stitch Design Tokens -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-fixed-dim": "#ffb599",
+              "surface-dim": "#0b1325",
+              "surface": "#0b1325",
+              "tertiary": "#4edea3",
+              "surface-tint": "#ffb599",
+              "secondary-fixed": "#c2e8ff",
+              "on-tertiary": "#003824",
+              "inverse-on-surface": "#283043",
+              "outline-variant": "#5b4137",
+              "surface-container": "#171f32",
+              "surface-container-lowest": "#060e1f",
+              "on-tertiary-container": "#003421",
+              "primary": "#ffb599",
+              "surface-container-high": "#222a3d",
+              "error-container": "#93000a",
+              "primary-fixed": "#ffdbce",
+              "secondary-fixed-dim": "#75d1ff",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-primary": "#5a1c00",
+              "on-error-container": "#ffdad6",
+              "on-surface": "#dbe2fb",
+              "on-primary-container": "#531900",
+              "tertiary-container": "#00a874",
+              "on-background": "#dbe2fb",
+              "background": "#0b1325",
+              "surface-bright": "#31394d",
+              "primary-container": "#ff5e00",
+              "on-secondary-container": "#004b65",
+              "inverse-surface": "#dbe2fb",
+              "outline": "#ab897d",
+              "error": "#ffb4ab",
+              "on-secondary-fixed": "#001e2b",
+              "surface-container-highest": "#2d3448",
+              "on-primary-fixed": "#370e00",
+              "on-surface-variant": "#e4bfb1",
+              "on-primary-fixed-variant": "#7f2b00",
+              "surface-container-low": "#131b2d",
+              "tertiary-fixed": "#6ffbbe",
+              "on-secondary-fixed-variant": "#004d67",
+              "on-secondary": "#003548",
+              "on-error": "#690005",
+              "secondary-container": "#00c1fd",
+              "inverse-primary": "#a63b00",
+              "on-tertiary-fixed": "#002113",
+              "tertiary-fixed-dim": "#4edea3",
+              "surface-variant": "#2d3448",
+              "secondary": "#8fd8ff"
+            },
+            fontFamily: {
+              "headline-sm": ["Plus Jakarta Sans", "sans-serif"],
+              "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+              "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+              "telemetry-lg": ["JetBrains Mono", "monospace"],
+              "telemetry-md": ["JetBrains Mono", "monospace"],
+              "telemetry-sm": ["JetBrains Mono", "monospace"],
+              "label-caps": ["JetBrains Mono", "monospace"],
+              "body-sm": ["Inter", "sans-serif"],
+              "body-md": ["Inter", "sans-serif"],
+              "body-lg": ["Inter", "sans-serif"]
+            }
+          }
+        }
+      };
+    </script>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body class="bg-[#050a17] font-body-md text-on-surface overflow-hidden select-none flex items-center justify-center">
+    
+    <!-- =================================================================== -->
+    <!-- 9:16 ARCADE KIOSK FRAME — Fixed strictly to 9:16 regardless of device -->
+    <!-- =================================================================== -->
+    <div id="kiosk-frame" class="relative overflow-hidden shadow-2xl bg-surface">
+      
+      <!-- Phaser 3 Canvas Container -->
+      <div id="game-container"></div>
+
+      <!-- ========================================== -->
+      <!-- 1. CYBER MATCH — START OVERLAY (VERTICAL) -->
+      <!-- ========================================== -->
+      <div id="cyber-start-overlay" class="absolute inset-0 z-40 bg-surface flex flex-col justify-between overflow-hidden select-none">
+        <!-- Live Animated Cyber Defense Network Background -->
+        <canvas id="cyber-bg-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
+        <main class="relative z-10 flex-1 flex flex-col justify-between w-full h-full p-4 pb-4 overflow-hidden">
+          
+          <!-- Top Telemetry Bar (Clean event header, no slop) -->
+          <header class="w-full flex items-center justify-between text-secondary-fixed-dim font-label-caps text-[10px] shrink-0 pt-1 pb-1">
+            <div class="flex items-center space-x-1.5 bg-surface-container-lowest px-2.5 py-1 rounded shadow-sm">
+              <span class="inline-block w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+              <span class="tracking-widest uppercase text-secondary font-telemetry-sm font-bold">GovWare 2026</span>
+            </div>
+            <div class="flex items-center space-x-1.5 bg-surface-container-lowest px-2.5 py-1 rounded shadow-sm">
+              <span class="material-symbols-outlined text-secondary text-sm">grid_view</span>
+              <span class="font-telemetry-sm tracking-wider text-secondary font-bold">16 CARDS • 8 PAIRS</span>
+            </div>
+          </header>
+
+          <!-- Hero Title Zone with SonicWall Logo right above the Title (Highlighted Game Title) -->
+          <div class="text-center flex flex-col items-center space-y-2 w-full shrink-0 mt-1 mb-1">
+            <!-- SonicWall Brand Logo directly above the game title (Expanded & Proportional) -->
+            <div class="flex justify-center items-center w-full pb-0.5">
+              <img alt="SonicWall" class="h-13 md:h-15 max-w-[260px] md:max-w-[300px] w-auto object-contain shrink-0 drop-shadow-[0_0_26px_rgba(255,94,0,0.5)]" src="/assets/images/sonicwall-logo.png" onerror="this.src='https://lh3.googleusercontent.com/aida/AEtjO1UHoQL5TeWh63bx_70qB_o78CDO0ES-nyKYkwUUMoPZ0A8pGls1fqFKJzsUWmd5dMVDE8_pYWu1GHzaxqRCneMXfDlroEUOiN0lpTwuAf8wut5EM9WOvK2Rm5LHT5oTkprw4IE5cPmZtPtDJMtzXHtZnot9W86qNiXzrJzSdk2TEb6Qz9aw5Iibnr6x0PeZyA0Iihn5pGYy0AxlMcqENFUqz4yjMCRK5tJ2yp0jqgqoUo2lyivxAlpJZxwr'"/>
+            </div>
+            
+            <!-- Prominent Text Pill -->
+            <div class="inline-block bg-primary-container/20 border border-primary/40 px-4 md:px-5 py-1 rounded-full shadow-sm">
+              <span class="font-label-caps text-xs md:text-sm text-primary tracking-widest uppercase font-extrabold">SonicWall Threat Defense Challenge</span>
+            </div>
+
+            <!-- Grand Hero Title: CYBER MATCH -->
+            <h1 class="font-headline-xl text-5xl md:text-6xl font-black uppercase tracking-tight text-white drop-shadow-[0_0_42px_rgba(255,94,0,0.85)] flex items-center justify-center space-x-3 leading-none">
+              <span class="text-white">CYBER</span>
+              <span class="text-primary-container drop-shadow-[0_0_34px_rgba(255,94,0,1)]">MATCH</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="font-body-md text-sm md:text-base text-on-surface-variant max-w-md text-center leading-relaxed font-semibold">
+              Neutralize incoming cybersecurity threats before the countdown reaches zero!
+            </p>
+          </div>
+
+          <!-- Giant Primary START GAME Button (Moved Further to the Top) -->
+          <div class="w-full flex flex-col items-center shrink-0 mt-1 mb-2.5">
+            <button class="group relative w-full bg-primary-container hover:bg-[#EE4400] active:scale-[0.98] transition-all duration-150 rounded-2xl p-4 md:p-4.5 flex items-center justify-between shadow-[0_0_36px_rgba(255,94,0,0.6)] cursor-pointer overflow-hidden" id="startGameBtn">
+              <!-- Animated Scanner Beam Sweep inside Button -->
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
+              <div class="flex items-center space-x-4 z-10">
+                <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-on-primary/20 flex items-center justify-center text-on-primary shadow-sm">
+                  <span class="material-symbols-outlined text-3xl md:text-4xl font-black" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                </div>
+                <div class="flex flex-col text-left">
+                  <span class="font-headline-lg text-2xl md:text-3xl text-on-primary font-black tracking-wide uppercase leading-none">START GAME</span>
+                  <span class="font-telemetry-sm text-xs text-on-primary/90 mt-1 uppercase tracking-wider font-bold">Standard 4x4 Arcade Matrix</span>
+                </div>
+              </div>
+              <div class="z-10 flex items-center justify-center bg-on-primary/20 rounded-full w-10 h-10 md:w-11 md:h-11 group-hover:translate-x-1.5 transition-transform">
+                <span class="material-symbols-outlined text-on-primary text-2xl font-bold">arrow_forward</span>
+              </div>
+            </button>
+            <!-- Tactical Micro-Note (20s Countdown) -->
+            <div class="flex items-center space-x-2 mt-1.5 font-telemetry-sm text-[11px] text-on-surface-variant font-medium">
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+              <span>8 Threat Pairs • 20s Rush • Instant Swag Entry</span>
+            </div>
+          </div>
+
+          <!-- How To Section (3 Cards Moved Up with Clear Gaps) -->
+          <div class="w-full flex flex-col space-y-2 shrink-0 mb-2.5">
+            <div class="flex items-center justify-between px-1 pb-0.5">
+              <span class="font-label-caps text-xs text-secondary tracking-widest uppercase flex items-center space-x-1.5 font-bold">
+                <span class="material-symbols-outlined text-sm text-secondary">help</span>
+                <span>HOW TO PLAY // 3 STEPS</span>
+              </span>
+              <span class="font-telemetry-sm text-[11px] text-secondary-fixed">STANDARDIZED PROTOCOL</span>
+            </div>
+
+            <!-- Step 1 Card -->
+            <div class="w-full bg-surface-container rounded-xl p-2.5 md:p-3 shadow-md flex items-center space-x-3.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary shadow-inner">
+                <span class="material-symbols-outlined text-xl">touch_app</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="font-label-caps text-[10px] bg-secondary/15 text-secondary px-2 py-0.5 rounded-sm font-bold">STEP 01</span>
+                  <h3 class="font-headline-sm text-sm font-bold text-white truncate">Tap to Flip</h3>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-normal truncate mt-0.5">
+                  Touch cards to reveal encrypted defense shields & threat signatures.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2 Card -->
+            <div class="w-full bg-surface-container rounded-xl p-2.5 md:p-3 shadow-md flex items-center space-x-3.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-tertiary shadow-inner">
+                <span class="material-symbols-outlined text-xl">hub</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="font-label-caps text-[10px] bg-tertiary/15 text-tertiary px-2 py-0.5 rounded-sm font-bold">STEP 02</span>
+                  <h3 class="font-headline-sm text-sm font-bold text-white truncate">Match Pairs</h3>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-normal truncate mt-0.5">
+                  Link matching security tech (RTDMI™, Firewall, Cloud Sandbox).
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 Card -->
+            <div class="w-full bg-surface-container rounded-xl p-2.5 md:p-3 shadow-md flex items-center space-x-3.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary-container shadow-inner">
+                <span class="material-symbols-outlined text-xl">timer</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="font-label-caps text-[10px] bg-primary-container/20 text-primary px-2 py-0.5 rounded-sm font-bold">STEP 03</span>
+                  <h3 class="font-headline-sm text-sm font-bold text-white truncate">Beat the Clock</h3>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-normal truncate mt-0.5">
+                  Neutralize all 8 pairs in 20s to claim trade show swag!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Booth Kiosk Ambient Footer Status (Clear, Distinct Gap & Prominent Display) -->
+          <footer class="w-full flex flex-col items-center text-center space-y-1 shrink-0 pt-2 pb-1">
+            <div class="flex items-center space-x-2 text-on-surface-variant font-telemetry-sm text-[11px] bg-surface-container-lowest px-4 py-1.5 rounded-full border border-surface-container-highest/30 shadow-md">
+              <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+              <span class="text-on-surface font-semibold">Touch screen to begin</span>
+            </div>
+            <span class="font-label-caps text-[9px] text-on-surface-variant/60 uppercase tracking-widest pt-0.5">
+              SonicWall Interactive Booth Experience
+            </span>
+          </footer>
+
+        </main>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- 2. CYBER MATCH — RESULTS OVERLAY (VERTICAL)-->
+      <!-- ========================================== -->
+      <div id="cyber-result-overlay" class="absolute inset-0 z-50 bg-surface flex flex-col justify-between overflow-hidden select-none hidden">
+        
+        <!-- Top Header Bar (Enlarged, Cleaned - Mission Summary on the right) -->
+        <header class="w-full shrink-0 z-50 bg-surface/90 backdrop-blur-md px-4 py-3 md:py-3.5 border-b border-surface-container-highest/40 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <button id="btn-back" aria-label="Back" class="w-9 h-9 flex items-center justify-center rounded-lg bg-surface-container-low text-on-surface hover:text-primary transition-colors cursor-pointer">
+              <span class="material-symbols-outlined text-xl">arrow_back</span>
+            </button>
+            <img alt="SonicWall" class="h-7 md:h-8 w-auto object-contain" src="/assets/images/sonicwall-logo.png" onerror="this.src='https://lh3.googleusercontent.com/aida/AEtjO1UHoQL5TeWh63bx_70qB_o78CDO0ES-nyKYkwUUMoPZ0A8pGls1fqFKJzsUWmd5dMVDE8_pYWu1GHzaxqRCneMXfDlroEUOiN0lpTwuAf8wut5EM9WOvK2Rm5LHT5oTkprw4IE5cPmZtPtDJMtzXHtZnot9W86qNiXzrJzSdk2TEb6Qz9aw5Iibnr6x0PeZyA0Iihn5pGYy0AxlMcqENFUqz4yjMCRK5tJ2yp0jqgqoUo2lyivxAlpJZxwr'"/>
+          </div>
+          <div class="flex flex-col text-right items-end">
+            <h1 class="font-headline-sm text-sm md:text-base text-on-surface tracking-tight uppercase leading-none font-black">Mission Summary</h1>
+            <span class="font-telemetry-sm text-[10px] md:text-xs text-primary-container tracking-wider uppercase font-bold mt-0.5">SESSION DEBRIEF</span>
+          </div>
+        </header>
+
+        <!-- Main Zero-Scroll Results Container (No Leaderboards, No Scoring, No AI Slop) -->
+        <main class="flex-1 flex flex-col justify-between w-full h-full p-4 md:p-5 pt-3 pb-3 overflow-hidden">
+
+          <!-- 1. Celebration Header (Moved Further Down with Room to Breathe, Larger Game Over Title) -->
+          <div class="flex flex-col items-center text-center gap-1.5 shrink-0 mt-3 md:mt-5 mb-3">
+            <div class="flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-tertiary/15 border border-tertiary/30 shadow-sm" id="res-badge-container">
+              <span class="material-symbols-outlined text-tertiary text-base" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+              <span class="font-label-caps text-[10px] text-tertiary uppercase tracking-widest font-bold" id="res-containment">THREAT CONTAINMENT 100%</span>
+            </div>
+            <h2 class="font-headline-xl text-3xl md:text-4xl lg:text-5xl text-on-surface tracking-tight uppercase font-black drop-shadow-[0_0_26px_rgba(255,94,0,0.65)] pt-1" id="res-headline">
+              CONGRATULATIONS!
+            </h2>
+            <p class="font-body-sm text-xs md:text-sm text-secondary leading-snug font-medium max-w-sm" id="res-subheadline">
+              All 8 threat vectors neutralized in record time.
+            </p>
+          </div>
+
+          <!-- 2. Highlighted Title Card: Challenge Timing HUD Unit (Clean, No Slop, No Fake Rank/Telemetry) -->
+          <div class="flex flex-col items-center justify-center p-4 md:p-5 rounded-2xl bg-gradient-to-b from-[#0e1d3d] to-[#081226] relative overflow-hidden shadow-[0_0_36px_rgba(255,94,0,0.22)] shrink-0 border-2 border-primary/45 mb-3">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-primary-container/15 rounded-bl-full pointer-events-none"></div>
+            <!-- Clean Header -->
+            <div class="w-full flex items-center justify-between pb-2 text-secondary-fixed-dim border-b border-surface-container-highest/40">
+              <span class="font-label-caps text-[11px] uppercase tracking-widest font-extrabold text-secondary">CHALLENGE TIMING</span>
+              <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                <span class="font-label-caps text-[10px] text-primary-container uppercase font-bold tracking-wider">20s CHALLENGE</span>
+              </div>
+            </div>
+            
+            <!-- Main Mission Time / Clear Status in a Clean Column -->
+            <div class="flex flex-col items-center text-center my-3">
+              <span class="font-label-caps text-xs text-secondary-fixed uppercase tracking-widest font-bold" id="res-time-label">TIME ELAPSED:</span>
+              <span class="font-headline-xl text-5xl md:text-6xl text-primary-container font-black tracking-tight drop-shadow-[0_0_28px_rgba(255,94,0,0.7)] leading-none mt-1.5" id="res-time-display">
+                20s
+              </span>
+            </div>
+          </div>
+
+          <!-- 3. Tactical Performance Specs (Vertical Column Layout) -->
+          <div class="flex flex-col gap-2 w-full shrink-0 mb-3">
+            <div class="flex items-center justify-between px-1">
+              <span class="font-label-caps text-[10px] text-secondary uppercase tracking-wider font-bold">TACTICAL PERFORMANCE SPECS</span>
+              <span class="font-telemetry-sm text-[9px] text-secondary/60">MATCH STATS</span>
+            </div>
+            
+            <div class="flex flex-col space-y-2.5 w-full">
+              <!-- Stat 1: Pairs Matched -->
+              <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container shadow-sm border border-surface-container-highest/40">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary shadow-inner">
+                    <span class="material-symbols-outlined text-lg">hub</span>
+                  </div>
+                  <div class="flex flex-col text-left">
+                    <span class="font-label-caps text-[10px] text-secondary uppercase tracking-wider font-bold">Threats Neutralized</span>
+                    <span class="font-telemetry-md text-sm md:text-base text-on-surface font-black" id="res-pairs-matched">8 / 8</span>
+                  </div>
+                </div>
+                <span class="font-telemetry-sm text-[10px] text-tertiary px-2.5 py-1 rounded bg-tertiary/15 font-bold uppercase tracking-wider" id="res-threat-status">100% SECURED</span>
+              </div>
+
+              <!-- Stat 2: Moves & Accuracy -->
+              <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container shadow-sm border border-surface-container-highest/40">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-tertiary shadow-inner">
+                    <span class="material-symbols-outlined text-lg">touch_app</span>
+                  </div>
+                  <div class="flex flex-col text-left">
+                    <span class="font-label-caps text-[10px] text-secondary uppercase tracking-wider font-bold">Tactical Flips</span>
+                    <span class="font-telemetry-md text-sm md:text-base text-on-surface font-black" id="res-moves">14 Flips</span>
+                  </div>
+                </div>
+                <span class="font-telemetry-sm text-[10px] text-tertiary px-2.5 py-1 rounded bg-tertiary/15 font-bold uppercase tracking-wider" id="res-accuracy">85% ACC</span>
+              </div>
+
+              <!-- Stat 3: Streak Multiplier -->
+              <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container shadow-sm border border-surface-container-highest/40">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary-container shadow-inner">
+                    <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                  </div>
+                  <div class="flex flex-col text-left">
+                    <span class="font-label-caps text-[10px] text-secondary uppercase tracking-wider font-bold">Peak Combo Streak</span>
+                    <span class="font-telemetry-md text-sm md:text-base text-on-surface font-black" id="res-streak">Max 4x</span>
+                  </div>
+                </div>
+                <span class="font-telemetry-sm text-[10px] text-primary px-2.5 py-1 rounded bg-primary-container/20 font-bold uppercase tracking-wider">HOTFIRE</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Primary CTA (Play Again) -->
+          <div class="flex flex-col gap-2 w-full shrink-0 mb-1">
+            <!-- Play Again Primary Glowing Button -->
+            <button class="w-full py-3.5 px-4 rounded-xl bg-primary-container hover:bg-[#EE4400] text-on-primary-container font-headline-sm text-base font-black flex items-center justify-center gap-2.5 shadow-[0_0_28px_rgba(255,94,0,0.5)] active:scale-95 transition-all cursor-pointer" id="btn-play-again">
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">replay</span>
+              <span>PLAY AGAIN</span>
+            </button>
+          </div>
+
+          <!-- 5. Ambient Reset Notice (Clean, no fake kiosk station 4 text) -->
+          <footer class="flex flex-col items-center justify-center text-center gap-0.5 shrink-0 pt-0.5 pb-1">
+            <div class="flex items-center gap-1.5 text-secondary text-[10px]">
+              <span class="material-symbols-outlined text-xs">touch_app</span>
+              <span class="font-telemetry-sm">Touch back arrow or Play Again to start a new mission</span>
+            </div>
+          </footer>
+
+        </main>
+      </div>
+
+      <!-- Interactive Swag Voucher Modal Dialog -->
+      <div id="prize-modal" class="absolute inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-surface-container p-5 rounded-2xl max-w-xs w-full shadow-2xl border border-primary-container/40 text-center flex flex-col items-center space-y-3">
+          <div class="w-12 h-12 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container">
+            <span class="material-symbols-outlined text-3xl">celebration</span>
+          </div>
+          <h3 class="font-headline-lg text-lg text-white uppercase font-bold">Voucher Verified!</h3>
+          <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+            Please show this screen to the SonicWall booth staff to collect your event swag and enter today's grand prize drawing!
+          </p>
+          <div class="px-3 py-1.5 rounded bg-surface-container-lowest font-telemetry-sm text-xs text-secondary-container font-bold tracking-wider">
+            TOKEN: #SWAG-CLAIM
+          </div>
+          <button id="btn-close-modal" class="w-full py-2 bg-primary-container text-on-primary-container font-headline-sm text-xs font-bold rounded-lg cursor-pointer">
+            DISMISS
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+
+    <!-- UI Overlay Handlers & Synchronization Script -->
+    <script>
+      (function initCyberMatchUI() {
+        const startOverlay = document.getElementById('cyber-start-overlay');
+        const resultOverlay = document.getElementById('cyber-result-overlay');
+        const startBtn = document.getElementById('startGameBtn');
+        const playAgainBtn = document.getElementById('btn-play-again');
+        const backBtn = document.getElementById('btn-back');
+        const idleTimerElem = document.getElementById('idle-timer');
+
+        let idleTimerInterval = null;
+
+        // Initial touch/click audio unlocking for Start Menu BGM (bgm.mp3)
+        function tryPlayMenuBGM() {
+          if (!startOverlay.classList.contains('hidden')) {
+            if (window.sounds && window.sounds.currentTrack !== 'menu') {
+              window.sounds.playMenuMusic();
+            }
+          }
+        }
+        document.addEventListener('pointerdown', tryPlayMenuBGM);
+        document.addEventListener('keydown', tryPlayMenuBGM);
+
+        // 1. START GAME HANDLER -> Switches soundtrack to The_Final_Combo.mp3
+        if (startBtn) {
+          startBtn.addEventListener('click', function() {
+            if (window.sounds) {
+              window.sounds.playClick();
+              window.sounds.playGameMusic();
+            }
+            startBtn.style.transform = 'scale(0.97)';
+            setTimeout(() => {
+              startBtn.style.transform = 'scale(1)';
+              startOverlay.classList.add('hidden');
+              
+              if (window.__game) {
+                const startScene = window.__game.scene.getScene('StartScene');
+                if (startScene) {
+                  startScene.scene.stop();
+                }
+                window.__game.scene.start('GameScene');
+              }
+            }, 100);
+          });
+        }
+
+        // 2. SHOW RESULTS FUNCTION (Called from GameScene, Keeps The_Final_Combo.mp3 playing)
+        window.showCyberResults = function(data) {
+          const {
+            moves = 14,
+            timeLeft = 18,
+            timeTaken = 14,
+            maxStreak = 4,
+            won = true,
+            pairsMatched = 8
+          } = data || {};
+
+          // Ensure game music continues playing on result screen
+          if (window.sounds && window.sounds.currentTrack !== 'game') {
+            window.sounds.playGameMusic();
+          }
+
+          // Hide Start Overlay and show Result Overlay
+          startOverlay.classList.add('hidden');
+          resultOverlay.classList.remove('hidden');
+
+          // Update Celebration Texts
+          const containmentElem = document.getElementById('res-containment');
+          const headlineElem = document.getElementById('res-headline');
+          const subheadlineElem = document.getElementById('res-subheadline');
+          const timeLabel = document.getElementById('res-time-label');
+          const timeDisplay = document.getElementById('res-time-display');
+
+          if (won) {
+            if (containmentElem) containmentElem.textContent = 'THREAT CONTAINMENT 100%';
+            if (headlineElem) headlineElem.textContent = 'CONGRATULATIONS!';
+            if (subheadlineElem) subheadlineElem.textContent = 'All 8 threat vectors neutralized in record time.';
+            if (timeLabel) timeLabel.textContent = 'CLEARED IN:';
+            if (timeDisplay) timeDisplay.textContent = `${timeTaken}s`;
+
+            // Trigger one-time celebratory confetti burst on victory
+            if (typeof confetti === 'function') {
+              try {
+                confetti({
+                  particleCount: 90,
+                  spread: 80,
+                  origin: { y: 0.55 },
+                  colors: ['#F05423', '#00D8F6', '#10B981', '#FFFFFF', '#FACC15']
+                });
+              } catch (err) {
+                console.error('Confetti trigger error:', err);
+              }
+            }
+          } else {
+            const pct = Math.round((pairsMatched / 8) * 100);
+            if (containmentElem) containmentElem.textContent = `THREAT CONTAINMENT ${pct}%`;
+            if (headlineElem) headlineElem.textContent = 'GAME OVER!';
+            if (subheadlineElem) subheadlineElem.textContent = `${pairsMatched} of 8 threat vectors neutralized.`;
+            if (timeLabel) timeLabel.textContent = 'TIME ELAPSED:';
+            if (timeDisplay) timeDisplay.textContent = '20s';
+          }
+
+          // Tactical Metrics (No scoring)
+          const pairsElem = document.getElementById('res-pairs-matched');
+          const threatStatus = document.getElementById('res-threat-status');
+          if (pairsElem) pairsElem.textContent = `${pairsMatched} / 8`;
+          if (threatStatus) threatStatus.textContent = pairsMatched >= 8 ? '100% SECURED' : `${pairsMatched} PAIRS`;
+
+          const movesElem = document.getElementById('res-moves');
+          const accElem = document.getElementById('res-accuracy');
+          const acc = Math.min(100, Math.round((8 / Math.max(8, moves)) * 100));
+          if (movesElem) movesElem.textContent = `${moves} Flips`;
+          if (accElem) accElem.textContent = `${acc}% ACC`;
+
+          const streakElem = document.getElementById('res-streak');
+          if (streakElem) streakElem.textContent = `Max ${maxStreak}x`;
+
+          // No auto-redirect interval: Results screen stays open until player taps PLAY AGAIN or BACK
+        };
+
+        function resetToStart() {
+          if (idleTimerInterval) clearInterval(idleTimerInterval);
+          resultOverlay.classList.add('hidden');
+          startOverlay.classList.remove('hidden');
+          // Switch audio back to Start Menu BGM (bgm.mp3)
+          if (window.sounds) {
+            window.sounds.playMenuMusic();
+          }
+          if (window.__game) {
+            window.__game.scene.stop('GameScene');
+            window.__game.scene.stop('ResultOverlay');
+            window.__game.scene.start('StartScene');
+          }
+        }
+        window.returnToCyberMenu = resetToStart;
+
+        // 3. PLAY AGAIN BUTTON -> Continues The_Final_Combo.mp3 and restarts game
+        if (playAgainBtn) {
+          playAgainBtn.addEventListener('click', function() {
+            if (window.sounds) {
+              window.sounds.playClick();
+              window.sounds.playGameMusic();
+            }
+            if (idleTimerInterval) clearInterval(idleTimerInterval);
+            resultOverlay.classList.add('hidden');
+            if (window.__game) {
+              const gameScene = window.__game.scene.getScene('GameScene');
+              if (gameScene) {
+                gameScene.restartGame();
+              } else {
+                window.__game.scene.start('GameScene');
+              }
+            }
+          });
+        }
+
+        // 4. BACK BUTTON -> Returns to Start Menu with bgm.mp3
+        if (backBtn) {
+          backBtn.addEventListener('click', function() {
+            if (window.sounds) {
+              window.sounds.playClick();
+              window.sounds.playMenuMusic();
+            }
+            resetToStart();
+          });
+        }
+      })();
+
+      // Start Screen Ambient Cyber Defense Network Background Animation
+      (function initCyberBgAnimation() {
+        const canvas = document.getElementById('cyber-bg-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let width = 0;
+        let height = 0;
+
+        function resize() {
+          if (!canvas.parentElement) return;
+          width = canvas.width = canvas.parentElement.clientWidth;
+          height = canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        const particleCount = 28;
+        const particles = [];
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * (width || 400),
+            y: Math.random() * (height || 800),
+            vx: (Math.random() - 0.5) * 0.45,
+            vy: (Math.random() - 0.5) * 0.45,
+            r: Math.random() * 2 + 1.2,
+            isCyan: Math.random() > 0.35,
+            alpha: Math.random() * 0.35 + 0.2
+          });
+        }
+
+        let scanY = 0;
+
+        function loop() {
+          const overlay = document.getElementById('cyber-start-overlay');
+          if (!overlay || overlay.classList.contains('hidden')) {
+            requestAnimationFrame(loop);
+            return;
+          }
+
+          if (width === 0 || height === 0) {
+            resize();
+          }
+
+          ctx.clearRect(0, 0, width, height);
+
+          // Subtle ambient scanning beam sweep
+          scanY = (scanY + 0.9) % (height + 120);
+          const grad = ctx.createLinearGradient(0, scanY - 90, 0, scanY);
+          grad.addColorStop(0, 'rgba(0, 216, 246, 0)');
+          grad.addColorStop(1, 'rgba(0, 216, 246, 0.035)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, Math.max(0, scanY - 90), width, 90);
+
+          // Update & draw particles
+          for (let i = 0; i < particleCount; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+
+            const colorBase = p.isCyan ? '0, 216, 246,' : '240, 84, 35,';
+            ctx.fillStyle = 'rgba(' + colorBase + p.alpha + ')';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Connect nearby nodes
+            for (let j = i + 1; j < particleCount; j++) {
+              const p2 = particles[j];
+              const dx = p.x - p2.x;
+              const dy = p.y - p2.y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < 110) {
+                const lineAlpha = (1 - dist / 110) * 0.14;
+                ctx.strokeStyle = 'rgba(' + (p.isCyan ? '0, 216, 246,' : '240, 84, 35,') + lineAlpha + ')';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+              }
+            }
+          }
+
+          requestAnimationFrame(loop);
+        }
+
+        requestAnimationFrame(loop);
+      })();
+    </script>
+  </body>
+</html>

@@ -12,7 +12,7 @@ export const GAME_CONFIG = {
     baseDuration: 20, // 20 seconds arcade rush
     minDuration: 10,
     timeReductionPerRound: 2, // 20s -> 18s -> 16s -> 14s...
-    timeBonusPerMatch: 1.0,
+    timeBonusPerMatch: 0,
     previewDuration: 1.2,
     pointsPerMatch: 150,
     comboMultiplierStep: 0.5

@@ -30,7 +30,7 @@ html, body {
   overflow: hidden;
   background-color: #0b1325;
   box-shadow: 0 0 60px rgba(0, 0, 0, 0.95), 0 0 35px rgba(255, 94, 0, 0.2);
-  /* Responsive calculation: always maximum possible 9:16 rectangle fitting inside viewport */
+  /* Strict 9:16 arcade proportions: centered in viewport, perfectly proportioned on any screen */
   width: min(100vw, calc(100vh * 9 / 16));
   height: min(100vh, calc(100vw * 16 / 9));
   aspect-ratio: 9 / 16;

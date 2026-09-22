@@ -118,122 +118,122 @@
       <div id="cyber-start-overlay" class="absolute inset-0 z-40 bg-surface flex flex-col justify-between overflow-hidden select-none">
         <!-- Live Animated Cyber Defense Network Background -->
         <canvas id="cyber-bg-canvas" class="absolute inset-0 w-full h-full pointer-events-none z-0"></canvas>
-        <main class="relative z-10 flex-1 flex flex-col justify-between w-full h-full p-4 pb-4 overflow-hidden">
+        <main class="relative z-10 flex-1 flex flex-col justify-between w-full h-full max-w-[540px] 2xl:max-w-[1080px] mx-auto p-3 sm:p-5 2xl:p-10 overflow-hidden">
           
           <!-- Top Telemetry Bar (Clean event header, no slop) -->
-          <header class="w-full flex items-center justify-between text-secondary-fixed-dim font-label-caps text-[10px] shrink-0 pt-1 pb-1">
-            <div class="flex items-center space-x-1.5 bg-surface-container-lowest px-2.5 py-1 rounded shadow-sm">
-              <span class="inline-block w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+          <header class="w-full flex items-center justify-between text-secondary-fixed-dim font-label-caps text-xs 2xl:text-xl shrink-0 pt-0.5 pb-0.5">
+            <div class="flex items-center space-x-2 bg-surface-container-lowest px-2.5 sm:px-3 2xl:px-6 py-1 2xl:py-2 rounded shadow-sm">
+              <span class="inline-block w-2 h-2 2xl:w-4 2xl:h-4 rounded-full bg-tertiary animate-pulse"></span>
               <span class="tracking-widest uppercase text-secondary font-telemetry-sm font-bold">GovWare 2026</span>
             </div>
-            <div class="flex items-center space-x-1.5 bg-surface-container-lowest px-2.5 py-1 rounded shadow-sm">
-              <span class="material-symbols-outlined text-secondary text-sm">grid_view</span>
+            <div class="flex items-center space-x-2 bg-surface-container-lowest px-2.5 sm:px-3 2xl:px-6 py-1 2xl:py-2 rounded shadow-sm">
+              <span class="material-symbols-outlined text-secondary text-sm 2xl:text-2xl">grid_view</span>
               <span class="font-telemetry-sm tracking-wider text-secondary font-bold">16 CARDS • 8 PAIRS</span>
             </div>
           </header>
 
           <!-- Hero Title Zone with SonicWall Logo right above the Title (Highlighted Game Title) -->
-          <div class="text-center flex flex-col items-center space-y-2 w-full shrink-0 mt-1 mb-1">
+          <div class="text-center flex flex-col items-center space-y-1.5 sm:space-y-2 2xl:space-y-4 w-full shrink-0 mt-0.5 sm:mt-1 mb-0.5 sm:mb-1">
             <!-- SonicWall Brand Logo directly above the game title (Expanded & Proportional) -->
             <div class="flex justify-center items-center w-full pb-0.5">
-              <img alt="SonicWall" class="h-13 md:h-15 max-w-[260px] md:max-w-[300px] w-auto object-contain shrink-0 drop-shadow-[0_0_26px_rgba(255,94,0,0.5)]" src="/assets/images/sonicwall-logo.png" onerror="this.src='https://lh3.googleusercontent.com/aida/AEtjO1UHoQL5TeWh63bx_70qB_o78CDO0ES-nyKYkwUUMoPZ0A8pGls1fqFKJzsUWmd5dMVDE8_pYWu1GHzaxqRCneMXfDlroEUOiN0lpTwuAf8wut5EM9WOvK2Rm5LHT5oTkprw4IE5cPmZtPtDJMtzXHtZnot9W86qNiXzrJzSdk2TEb6Qz9aw5Iibnr6x0PeZyA0Iihn5pGYy0AxlMcqENFUqz4yjMCRK5tJ2yp0jqgqoUo2lyivxAlpJZxwr'"/>
+              <img alt="SonicWall" class="h-11 sm:h-14 md:h-16 2xl:h-28 max-w-[240px] sm:max-w-[300px] 2xl:max-w-[560px] w-auto object-contain shrink-0 drop-shadow-[0_0_26px_rgba(255,94,0,0.5)]" src="/assets/images/sonicwall-logo.png" onerror="this.src='https://lh3.googleusercontent.com/aida/AEtjO1UHoQL5TeWh63bx_70qB_o78CDO0ES-nyKYkwUUMoPZ0A8pGls1fqFKJzsUWmd5dMVDE8_pYWu1GHzaxqRCneMXfDlroEUOiN0lpTwuAf8wut5EM9WOvK2Rm5LHT5oTkprw4IE5cPmZtPtDJMtzXHtZnot9W86qNiXzrJzSdk2TEb6Qz9aw5Iibnr6x0PeZyA0Iihn5pGYy0AxlMcqENFUqz4yjMCRK5tJ2yp0jqgqoUo2lyivxAlpJZxwr'"/>
             </div>
             
             <!-- Prominent Text Pill -->
-            <div class="inline-block bg-primary-container/20 border border-primary/40 px-4 md:px-5 py-1 rounded-full shadow-sm">
-              <span class="font-label-caps text-xs md:text-sm text-primary tracking-widest uppercase font-extrabold">SonicWall Threat Defense Challenge</span>
+            <div class="inline-block bg-primary-container/20 border border-primary/40 px-3.5 sm:px-4 md:px-5 2xl:px-8 py-0.5 sm:py-1 2xl:py-2 rounded-full shadow-sm">
+              <span class="font-label-caps text-[11px] sm:text-xs md:text-sm 2xl:text-xl text-primary tracking-widest uppercase font-extrabold">SonicWall Threat Defense Challenge</span>
             </div>
 
-            <!-- Grand Hero Title: CYBER MATCH -->
-            <h1 class="font-headline-xl text-5xl md:text-6xl font-black uppercase tracking-tight text-white drop-shadow-[0_0_42px_rgba(255,94,0,0.85)] flex items-center justify-center space-x-3 leading-none">
+            <!-- Grand Hero Title: CYBER MATCH (Grand, bold, highly legible) -->
+            <h1 class="font-headline-xl text-5xl sm:text-6xl md:text-7xl 2xl:text-9xl font-black uppercase tracking-tight text-white drop-shadow-[0_0_42px_rgba(255,94,0,0.85)] flex items-center justify-center space-x-2.5 sm:space-x-3 2xl:space-x-6 leading-none">
               <span class="text-white">CYBER</span>
               <span class="text-primary-container drop-shadow-[0_0_34px_rgba(255,94,0,1)]">MATCH</span>
             </h1>
 
             <!-- Subtitle -->
-            <p class="font-body-md text-sm md:text-base text-on-surface-variant max-w-md text-center leading-relaxed font-semibold">
+            <p class="font-body-md text-xs sm:text-sm md:text-base 2xl:text-2xl text-on-surface-variant max-w-sm sm:max-w-md 2xl:max-w-2xl text-center leading-snug sm:leading-relaxed font-semibold">
               Neutralize incoming cybersecurity threats before the countdown reaches zero!
             </p>
           </div>
 
-          <!-- Giant Primary START GAME Button (Moved Further to the Top) -->
-          <div class="w-full flex flex-col items-center shrink-0 mt-1 mb-2.5">
-            <button class="group relative w-full bg-primary-container hover:bg-[#EE4400] active:scale-[0.98] transition-all duration-150 rounded-2xl p-4 md:p-4.5 flex items-center justify-between shadow-[0_0_36px_rgba(255,94,0,0.6)] cursor-pointer overflow-hidden" id="startGameBtn">
+          <!-- Primary START GAME Button (Centered, balanced arcade proportions) -->
+          <div class="w-full flex flex-col items-center shrink-0 mt-0.5 sm:mt-1 mb-1 sm:mb-2">
+            <button class="group relative w-full bg-primary-container hover:bg-[#EE4400] active:scale-[0.98] transition-all duration-150 rounded-2xl 2xl:rounded-3xl p-3.5 sm:p-4.5 2xl:p-8 flex items-center justify-between shadow-[0_0_36px_rgba(255,94,0,0.6)] cursor-pointer overflow-hidden" id="startGameBtn">
               <!-- Animated Scanner Beam Sweep inside Button -->
               <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
-              <div class="flex items-center space-x-4 z-10">
-                <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-on-primary/20 flex items-center justify-center text-on-primary shadow-sm">
-                  <span class="material-symbols-outlined text-3xl md:text-4xl font-black" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+              <div class="flex items-center space-x-3 sm:space-x-4 2xl:space-x-8 z-10">
+                <div class="w-11 h-11 sm:w-14 sm:h-14 2xl:w-24 2xl:h-24 rounded-xl 2xl:rounded-2xl bg-on-primary/20 flex items-center justify-center text-on-primary shadow-sm">
+                  <span class="material-symbols-outlined text-3xl sm:text-4xl 2xl:text-6xl font-black" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
                 </div>
                 <div class="flex flex-col text-left">
-                  <span class="font-headline-lg text-2xl md:text-3xl text-on-primary font-black tracking-wide uppercase leading-none">START GAME</span>
-                  <span class="font-telemetry-sm text-xs text-on-primary/90 mt-1 uppercase tracking-wider font-bold">Standard 4x4 Arcade Matrix</span>
+                  <span class="font-headline-lg text-xl sm:text-3xl 2xl:text-5xl text-on-primary font-black tracking-wide uppercase leading-none">START GAME</span>
+                  <span class="font-telemetry-sm text-[10px] sm:text-xs 2xl:text-lg text-on-primary/90 mt-0.5 sm:mt-1 uppercase tracking-wider font-bold">Standard 4x4 Arcade Matrix</span>
                 </div>
               </div>
-              <div class="z-10 flex items-center justify-center bg-on-primary/20 rounded-full w-10 h-10 md:w-11 md:h-11 group-hover:translate-x-1.5 transition-transform">
-                <span class="material-symbols-outlined text-on-primary text-2xl font-bold">arrow_forward</span>
+              <div class="z-10 flex items-center justify-center bg-on-primary/20 rounded-full w-9 h-9 sm:w-11 sm:h-11 2xl:w-20 2xl:h-20 group-hover:translate-x-1.5 transition-transform">
+                <span class="material-symbols-outlined text-on-primary text-xl sm:text-2xl 2xl:text-4xl font-bold">arrow_forward</span>
               </div>
             </button>
             <!-- Tactical Micro-Note (20s Countdown) -->
-            <div class="flex items-center space-x-2 mt-1.5 font-telemetry-sm text-[11px] text-on-surface-variant font-medium">
-              <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+            <div class="flex items-center space-x-2 mt-1 sm:mt-1.5 2xl:mt-3 font-telemetry-sm text-[10px] sm:text-xs 2xl:text-lg text-on-surface-variant font-medium">
+              <span class="inline-block w-1.5 h-1.5 2xl:w-3 2xl:h-3 rounded-full bg-primary-container"></span>
               <span>8 Threat Pairs • 20s Rush • Instant Swag Entry</span>
             </div>
           </div>
 
-          <!-- How To Section (3 Cards Moved Up with Clear Gaps) -->
-          <div class="w-full flex flex-col space-y-2 shrink-0 mb-2.5">
+          <!-- How To Section (3 Cards with clear arcade proportions) -->
+          <div class="w-full flex flex-col space-y-1.5 sm:space-y-2 2xl:space-y-4 shrink-0 mb-1 sm:mb-2">
             <div class="flex items-center justify-between px-1 pb-0.5">
-              <span class="font-label-caps text-xs text-secondary tracking-widest uppercase flex items-center space-x-1.5 font-bold">
-                <span class="material-symbols-outlined text-sm text-secondary">help</span>
+              <span class="font-label-caps text-xs 2xl:text-xl text-secondary tracking-widest uppercase flex items-center space-x-1.5 font-bold">
+                <span class="material-symbols-outlined text-sm 2xl:text-2xl text-secondary">help</span>
                 <span>HOW TO PLAY // 3 STEPS</span>
               </span>
-              <span class="font-telemetry-sm text-[11px] text-secondary-fixed">STANDARDIZED PROTOCOL</span>
+              <span class="font-telemetry-sm text-[10px] sm:text-[11px] 2xl:text-base text-secondary-fixed">STANDARDIZED PROTOCOL</span>
             </div>
 
             <!-- Step 1 Card -->
-            <div class="w-full bg-surface-container rounded-xl p-2.5 md:p-3 shadow-md flex items-center space-x-3.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
-              <div class="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary shadow-inner">
-                <span class="material-symbols-outlined text-xl">touch_app</span>
+            <div class="w-full bg-surface-container rounded-xl 2xl:rounded-2xl p-2 sm:p-3 2xl:p-6 shadow-md flex items-center space-x-3 2xl:space-x-6 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 w-8 h-8 sm:w-10 sm:h-10 2xl:w-16 2xl:h-16 rounded-lg 2xl:rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shadow-inner">
+                <span class="material-symbols-outlined text-lg sm:text-xl 2xl:text-3xl">touch_app</span>
               </div>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center space-x-2">
-                  <span class="font-label-caps text-[10px] bg-secondary/15 text-secondary px-2 py-0.5 rounded-sm font-bold">STEP 01</span>
-                  <h3 class="font-headline-sm text-sm font-bold text-white truncate">Tap to Flip</h3>
+                <div class="flex items-center space-x-2 2xl:space-x-4">
+                  <span class="font-label-caps text-[9px] sm:text-[10px] 2xl:text-sm bg-secondary/15 text-secondary px-1.5 sm:px-2 2xl:px-3 py-0.5 2xl:py-1 rounded-sm font-bold">STEP 01</span>
+                  <h3 class="font-headline-sm text-xs sm:text-base 2xl:text-2xl font-bold text-white truncate">Tap to Flip</h3>
                 </div>
-                <p class="font-body-sm text-xs text-on-surface-variant leading-normal truncate mt-0.5">
+                <p class="font-body-sm text-[11px] sm:text-xs 2xl:text-lg text-on-surface-variant leading-snug sm:leading-normal mt-0.5">
                   Touch cards to reveal encrypted defense shields & threat signatures.
                 </p>
               </div>
             </div>
 
             <!-- Step 2 Card -->
-            <div class="w-full bg-surface-container rounded-xl p-2.5 md:p-3 shadow-md flex items-center space-x-3.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
-              <div class="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-tertiary shadow-inner">
-                <span class="material-symbols-outlined text-xl">hub</span>
+            <div class="w-full bg-surface-container rounded-xl 2xl:rounded-2xl p-2 sm:p-3 2xl:p-6 shadow-md flex items-center space-x-3 2xl:space-x-6 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 w-8 h-8 sm:w-10 sm:h-10 2xl:w-16 2xl:h-16 rounded-lg 2xl:rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shadow-inner">
+                <span class="material-symbols-outlined text-lg sm:text-xl 2xl:text-3xl">hub</span>
               </div>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center space-x-2">
-                  <span class="font-label-caps text-[10px] bg-tertiary/15 text-tertiary px-2 py-0.5 rounded-sm font-bold">STEP 02</span>
-                  <h3 class="font-headline-sm text-sm font-bold text-white truncate">Match Pairs</h3>
+                <div class="flex items-center space-x-2 2xl:space-x-4">
+                  <span class="font-label-caps text-[9px] sm:text-[10px] 2xl:text-sm bg-tertiary/15 text-tertiary px-1.5 sm:px-2 2xl:px-3 py-0.5 2xl:py-1 rounded-sm font-bold">STEP 02</span>
+                  <h3 class="font-headline-sm text-xs sm:text-base 2xl:text-2xl font-bold text-white truncate">Match Pairs</h3>
                 </div>
-                <p class="font-body-sm text-xs text-on-surface-variant leading-normal truncate mt-0.5">
+                <p class="font-body-sm text-[11px] sm:text-xs 2xl:text-lg text-on-surface-variant leading-snug sm:leading-normal mt-0.5">
                   Link matching security tech (RTDMI™, Firewall, Cloud Sandbox).
                 </p>
               </div>
             </div>
 
             <!-- Step 3 Card -->
-            <div class="w-full bg-surface-container rounded-xl p-2.5 md:p-3 shadow-md flex items-center space-x-3.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
-              <div class="shrink-0 w-9 h-9 md:w-10 md:h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary-container shadow-inner">
-                <span class="material-symbols-outlined text-xl">timer</span>
+            <div class="w-full bg-surface-container rounded-xl 2xl:rounded-2xl p-2 sm:p-3 2xl:p-6 shadow-md flex items-center space-x-3 2xl:space-x-6 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 w-8 h-8 sm:w-10 sm:h-10 2xl:w-16 2xl:h-16 rounded-lg 2xl:rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-container shadow-inner">
+                <span class="material-symbols-outlined text-lg sm:text-xl 2xl:text-3xl">timer</span>
               </div>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center space-x-2">
-                  <span class="font-label-caps text-[10px] bg-primary-container/20 text-primary px-2 py-0.5 rounded-sm font-bold">STEP 03</span>
-                  <h3 class="font-headline-sm text-sm font-bold text-white truncate">Beat the Clock</h3>
+                <div class="flex items-center space-x-2 2xl:space-x-4">
+                  <span class="font-label-caps text-[9px] sm:text-[10px] 2xl:text-sm bg-primary-container/20 text-primary px-1.5 sm:px-2 2xl:px-3 py-0.5 2xl:py-1 rounded-sm font-bold">STEP 03</span>
+                  <h3 class="font-headline-sm text-xs sm:text-base 2xl:text-2xl font-bold text-white truncate">Beat the Clock</h3>
                 </div>
-                <p class="font-body-sm text-xs text-on-surface-variant leading-normal truncate mt-0.5">
+                <p class="font-body-sm text-[11px] sm:text-xs 2xl:text-lg text-on-surface-variant leading-snug sm:leading-normal mt-0.5">
                   Neutralize all 8 pairs in 20s to claim trade show swag!
                 </p>
               </div>
@@ -241,12 +241,12 @@
           </div>
 
           <!-- Booth Kiosk Ambient Footer Status (Clear, Distinct Gap & Prominent Display) -->
-          <footer class="w-full flex flex-col items-center text-center space-y-1 shrink-0 pt-2 pb-1">
-            <div class="flex items-center space-x-2 text-on-surface-variant font-telemetry-sm text-[11px] bg-surface-container-lowest px-4 py-1.5 rounded-full border border-surface-container-highest/30 shadow-md">
-              <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+          <footer class="w-full flex flex-col items-center text-center space-y-0.5 sm:space-y-1 shrink-0 pt-1 pb-1">
+            <div class="flex items-center space-x-2 text-on-surface-variant font-telemetry-sm text-[11px] sm:text-xs 2xl:text-lg bg-surface-container-lowest px-3.5 sm:px-4 2xl:px-8 py-1 sm:py-1.5 2xl:py-3 rounded-full border border-surface-container-highest/30 shadow-md">
+              <span class="w-2 h-2 2xl:w-4 2xl:h-4 rounded-full bg-tertiary animate-pulse"></span>
               <span class="text-on-surface font-semibold">Touch screen to begin</span>
             </div>
-            <span class="font-label-caps text-[9px] text-on-surface-variant/60 uppercase tracking-widest pt-0.5">
+            <span class="font-label-caps text-[9px] sm:text-[10px] 2xl:text-base text-on-surface-variant/60 uppercase tracking-widest pt-0.5">
               SonicWall Interactive Booth Experience
             </span>
           </footer>
@@ -274,7 +274,7 @@
         </header>
 
         <!-- Main Zero-Scroll Results Container (No Leaderboards, No Scoring, No AI Slop) -->
-        <main class="flex-1 flex flex-col justify-between w-full h-full p-4 md:p-5 pt-3 pb-3 overflow-hidden">
+        <main class="flex-1 flex flex-col justify-between w-full h-full max-w-[540px] mx-auto p-4 md:p-5 pt-3 pb-3 overflow-hidden">
 
           <!-- 1. Celebration Header (Moved Further Down with Room to Breathe, Larger Game Over Title) -->
           <div class="flex flex-col items-center text-center gap-1.5 shrink-0 mt-3 md:mt-5 mb-3">

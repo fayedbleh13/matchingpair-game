@@ -310,7 +310,7 @@ export class GameScene extends Phaser.Scene {
     this.hudContainer.add(topBar);
 
     // Row 1 Y position (Vertically balanced at top)
-    const row1Y = hudH * 0.22;
+    const row1Y = hudH * 0.18;
 
     // 1. SonicWall Brand Logo (Top Left)
     if (this.textures.exists('sw-brand-logo')) {
@@ -318,27 +318,30 @@ export class GameScene extends Phaser.Scene {
       const origW = (tex && tex.width) ? tex.width : 3231;
       const origH = (tex && tex.height) ? tex.height : 871;
       const aspect = origH / origW;
-      const logoW = Math.min(width * 0.36, 290 * s);
+      const logoW = Math.min(width * 0.32, 280 * s);
       const logoH = logoW * aspect;
-      const logo = this.add.image(logoW / 2 + 16 * s, row1Y, 'sw-brand-logo');
+      const logo = this.add.image(logoW / 2 + 12 * s, row1Y, 'sw-brand-logo');
       logo.setDisplaySize(logoW, logoH);
       this.hudContainer.add(logo);
     }
 
-    // Right Action Buttons: RESTART & MENU
-    const btnH = 46 * s;
-    const restartBtnW = 136 * s;
-    const restartX = width - 188 * s;
+    // Right Action Buttons: RESTART & MENU (Sleek, right-anchored to never overlap center circle)
+    const btnH = Math.max(30, Math.min(42 * s, 46));
+    const menuBtnW = Math.max(54, Math.min(80 * s, 96));
+    const restartBtnW = Math.max(76, Math.min(108 * s, 132));
+
+    const menuX = width - 12 * s - menuBtnW / 2;
+    const restartX = menuX - menuBtnW / 2 - 8 * s - restartBtnW / 2;
 
     const restartBg = this.add.graphics();
     restartBg.fillStyle(0xf05423, 1);
-    restartBg.fillRoundedRect(restartX - restartBtnW / 2, row1Y - btnH / 2, restartBtnW, btnH, 12 * s);
+    restartBg.fillRoundedRect(restartX - restartBtnW / 2, row1Y - btnH / 2, restartBtnW, btnH, 10 * s);
     const restartText = this.add.text(restartX, row1Y, 'RESTART', {
       fontFamily: 'Outfit',
-      fontSize: `${Math.floor(15 * s)}px`,
+      fontSize: `${Math.max(11, Math.floor(14 * s))}px`,
       fontWeight: '900',
       color: '#ffffff',
-      letterSpacing: 1.5
+      letterSpacing: 1
     }).setOrigin(0.5);
 
     const restartZone = this.add.zone(restartX, row1Y, restartBtnW, btnH).setInteractive({ useHandCursor: true });
@@ -347,21 +350,18 @@ export class GameScene extends Phaser.Scene {
       this.restartGame();
     });
 
-    const menuBtnW = 96 * s;
-    const menuX = width - 62 * s;
-
     const menuBg = this.add.graphics();
     menuBg.fillStyle(0x091325, 1);
-    menuBg.fillRoundedRect(menuX - menuBtnW / 2, row1Y - btnH / 2, menuBtnW, btnH, 12 * s);
+    menuBg.fillRoundedRect(menuX - menuBtnW / 2, row1Y - btnH / 2, menuBtnW, btnH, 10 * s);
     menuBg.lineStyle(1.5, 0x1e355b, 1);
-    menuBg.strokeRoundedRect(menuX - menuBtnW / 2, row1Y - btnH / 2, menuBtnW, btnH, 12 * s);
+    menuBg.strokeRoundedRect(menuX - menuBtnW / 2, row1Y - btnH / 2, menuBtnW, btnH, 10 * s);
 
     const menuText = this.add.text(menuX, row1Y, 'MENU', {
       fontFamily: 'Outfit',
-      fontSize: `${Math.floor(15 * s)}px`,
+      fontSize: `${Math.max(11, Math.floor(14 * s))}px`,
       fontWeight: '900',
       color: '#cbd5e1',
-      letterSpacing: 1.5
+      letterSpacing: 1
     }).setOrigin(0.5);
 
     const menuZone = this.add.zone(menuX, row1Y, menuBtnW, btnH).setInteractive({ useHandCursor: true });
@@ -372,16 +372,16 @@ export class GameScene extends Phaser.Scene {
 
     this.hudContainer.add([restartBg, restartText, restartZone, menuBg, menuText, menuZone]);
 
-    // Row 2: Centered Large Circular Timer Dial
-    const timeCircleY = hudH * 0.50;
+    // Row 2: Centered Large Circular Timer Dial (Guaranteed clearance from buttons)
+    const timeCircleY = hudH * 0.53;
     const timeCircleX = width / 2;
-    const circleR = Math.max(38, Math.min(hudH * 0.23, 50 * s));
+    const circleR = Math.min(hudH * 0.20, Math.max(30, 44 * s));
 
     this.timerCircleGraphics = this.add.graphics();
     this.hudContainer.add(this.timerCircleGraphics);
     this.timerCircleBounds = { x: timeCircleX, y: timeCircleY, radius: circleR, s };
 
-    const timerFontSize = Math.max(24, Math.floor(34 * s));
+    const timerFontSize = Math.max(22, Math.floor(32 * s));
     this.timerText = this.add.text(timeCircleX, timeCircleY, `${Math.ceil(this.timeLeft)}s`, {
       fontFamily: 'Outfit',
       fontSize: `${timerFontSize}px`,
@@ -392,10 +392,10 @@ export class GameScene extends Phaser.Scene {
     this.hudContainer.add(this.timerText);
 
     // Row 3: Stats Row (MOVES and PAIRS - Centered and balanced)
-    const statY = hudH * 0.81;
+    const statY = hudH * 0.82;
     this.movesText = this.add.text(width * 0.28, statY, `MOVES ${this.moves}`, {
       fontFamily: 'Outfit',
-      fontSize: `${Math.floor(18 * s)}px`,
+      fontSize: `${Math.max(13, Math.floor(17 * s))}px`,
       fontWeight: '800',
       color: '#ffffff',
       letterSpacing: 1.5
@@ -403,7 +403,7 @@ export class GameScene extends Phaser.Scene {
 
     this.pairsText = this.add.text(width * 0.72, statY, `PAIRS ${this.matchedInRound}/${this.totalPairsPerRound}`, {
       fontFamily: 'Outfit',
-      fontSize: `${Math.floor(18 * s)}px`,
+      fontSize: `${Math.max(13, Math.floor(17 * s))}px`,
       fontWeight: '900',
       color: '#00d8f6',
       letterSpacing: 1.5
@@ -718,10 +718,6 @@ export class GameScene extends Phaser.Scene {
         this.comboStreak++;
         this.maxStreak = Math.max(this.maxStreak || 0, this.comboStreak);
 
-        // Clutch time bonus (+1.5s)
-        this.timeLeft = Math.min(this.initialDuration + 5, this.timeLeft + GAME_CONFIG.progression.timeBonusPerMatch + 0.5);
-        this.drawTimerBar();
-
         // Sparkle burst
         this.createMatchSparkles(card1.x, card1.y);
         this.createMatchSparkles(card2.x, card2.y);
@@ -729,7 +725,7 @@ export class GameScene extends Phaser.Scene {
         // Floating Match Feedback
         const midX = (card1.x + card2.x) / 2;
         const midY = (card1.y + card2.y) / 2;
-        this.showFloatingPoints(midX, midY, '+1.5s BONUS');
+        this.showFloatingPoints(midX, midY, 'MATCH!');
 
         this.matchedInRound++;
         this.totalPairsMatched++;

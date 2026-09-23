@@ -126,8 +126,9 @@ html, body {
   font-size: clamp(8px, 1.9cqw, 24px);
 }
 
-.kiosk-step-header {
-  font-size: clamp(9px, 2.2cqw, 28px);
+.kiosk-step-header,
+.kiosk-tag-text {
+  font-size: clamp(9.5px, 2.2cqw, 28px);
 }
 
 .kiosk-step-card {
@@ -179,11 +180,13 @@ html, body {
 }
 
 .kiosk-result-headline {
-  font-size: clamp(18px, 5cqw, 72px);
+  font-size: clamp(26px, 7.2cqw, 98px);
+  letter-spacing: -0.01em;
+  line-height: 1.05;
 }
 
 .kiosk-result-subheadline {
-  font-size: clamp(9.5px, 2.2cqw, 28px);
+  font-size: clamp(11px, 2.6cqw, 32px);
 }
 
 .kiosk-result-time {

@@ -225,14 +225,14 @@ export class ResultOverlay extends Phaser.Scene {
     this.modalContainer.add([nameRect, this.nameText, saveRect, saveTxt]);
     curY += 56;
 
-    // Play Again Button
+    // Main Menu Button
     const playAgainW = modalW - 64;
     const playAgainH = 48;
     const playAgainBg = this.add.graphics();
     playAgainBg.fillStyle(0xf05423, 1);
     playAgainBg.fillRoundedRect(modalX - playAgainW / 2, curY - playAgainH / 2, playAgainW, playAgainH, 12);
 
-    const playAgainText = this.add.text(modalX, curY, 'PLAY AGAIN / NEXT ATTENDEE ▶', {
+    const playAgainText = this.add.text(modalX, curY, 'MAIN MENU ▶', {
       fontFamily: 'Outfit',
       fontSize: '16px',
       fontWeight: '900',
@@ -243,8 +243,14 @@ export class ResultOverlay extends Phaser.Scene {
     const playAgainZone = this.add.zone(modalX, curY, playAgainW, playAgainH).setInteractive({ useHandCursor: true });
     playAgainZone.on('pointerdown', () => {
       sounds.playClick();
-      const gameScene = this.scene.get('GameScene');
-      if (gameScene) gameScene.restartGame();
+      sounds.playMenuMusic();
+      if (typeof window !== 'undefined' && window.returnToCyberMenu) {
+        window.returnToCyberMenu();
+      } else {
+        this.scene.stop('ResultOverlay');
+        this.scene.stop('GameScene');
+        this.scene.start('StartScene');
+      }
     });
 
     this.modalContainer.add([playAgainBg, playAgainText, playAgainZone]);
@@ -428,14 +434,14 @@ export class ResultOverlay extends Phaser.Scene {
     this.modalContainer.add([nameRect, this.nameText, saveRect, saveTxt]);
     curY += 44 * s;
 
-    // Play Again Button
+    // Main Menu Button
     const playAgainW = modalW - 36 * s;
     const playAgainH = 54 * s;
     const playAgainBg = this.add.graphics();
     playAgainBg.fillStyle(0xf05423, 1);
     playAgainBg.fillRoundedRect(modalX - playAgainW / 2, curY, playAgainW, playAgainH, 14 * s);
 
-    const playAgainText = this.add.text(modalX, curY + playAgainH / 2, 'PLAY AGAIN / NEXT ATTENDEE ▶', {
+    const playAgainText = this.add.text(modalX, curY + playAgainH / 2, 'MAIN MENU ▶', {
       fontFamily: 'Outfit',
       fontSize: `${Math.floor(17 * s)}px`,
       fontWeight: '900',
@@ -446,8 +452,14 @@ export class ResultOverlay extends Phaser.Scene {
     const playAgainZone = this.add.zone(modalX, curY + playAgainH / 2, playAgainW, playAgainH).setInteractive({ useHandCursor: true });
     playAgainZone.on('pointerdown', () => {
       sounds.playClick();
-      const gameScene = this.scene.get('GameScene');
-      if (gameScene) gameScene.restartGame();
+      sounds.playMenuMusic();
+      if (typeof window !== 'undefined' && window.returnToCyberMenu) {
+        window.returnToCyberMenu();
+      } else {
+        this.scene.stop('ResultOverlay');
+        this.scene.stop('GameScene');
+        this.scene.start('StartScene');
+      }
     });
 
     this.modalContainer.add([playAgainBg, playAgainText, playAgainZone]);

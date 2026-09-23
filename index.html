@@ -188,7 +188,7 @@
                 <span class="material-symbols-outlined text-secondary" style="font-size: 1.15em;">help</span>
                 <span>HOW TO PLAY // 3 STEPS</span>
               </span>
-              <span class="font-telemetry-sm kiosk-tag-text text-secondary-fixed">STANDARDIZED PROTOCOL</span>
+              <span class="font-label-caps kiosk-step-header text-secondary-fixed/90 tracking-widest uppercase font-bold">STANDARDIZED PROTOCOL</span>
             </div>
 
             <!-- Step 1 Card -->
@@ -363,20 +363,20 @@
             </div>
           </div>
 
-          <!-- 4. Primary CTA (Play Again) -->
+          <!-- 4. Primary CTA (Main Menu) -->
           <div class="flex flex-col gap-2 w-full shrink-0 my-auto">
-            <!-- Play Again Primary Glowing Button -->
+            <!-- Main Menu Primary Glowing Button -->
             <button class="w-full py-3 px-4 rounded-xl bg-primary-container hover:bg-[#EE4400] text-on-primary-container font-headline-sm text-base font-black flex items-center justify-center gap-2.5 shadow-[0_0_28px_rgba(255,94,0,0.5)] active:scale-95 transition-all cursor-pointer" id="btn-play-again">
-              <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">replay</span>
-              <span>PLAY AGAIN</span>
+              <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">home</span>
+              <span>MAIN MENU</span>
             </button>
           </div>
 
-          <!-- 5. Ambient Reset Notice (Clean, no fake kiosk station 4 text) -->
+          <!-- 5. Ambient Reset Notice -->
           <footer class="flex flex-col items-center justify-center text-center gap-0.5 shrink-0 pt-0.5 pb-1">
             <div class="flex items-center gap-1.5 text-secondary text-[10px]">
               <span class="material-symbols-outlined text-xs">touch_app</span>
-              <span class="font-telemetry-sm">Touch back arrow or Play Again to start a new mission</span>
+              <span class="font-telemetry-sm">Touch to return to Main Menu</span>
             </div>
           </footer>
 
@@ -556,7 +556,7 @@
         }
         window.returnToCyberMenu = resetToStart;
 
-        // 3. PLAY AGAIN BUTTON -> Continues The_Final_Combo.mp3 and restarts game
+        // 3. MAIN MENU BUTTON -> Returns to Start Menu with bgm.mp3
         if (playAgainBtn) {
           playAgainBtn.addEventListener('pointerdown', function() {
             if (navigator.vibrate) navigator.vibrate(20);
@@ -565,18 +565,10 @@
             if (navigator.vibrate) navigator.vibrate(20);
             if (window.sounds) {
               window.sounds.playClick();
-              window.sounds.playGameMusic();
+              window.sounds.playMenuMusic();
             }
             if (idleTimerInterval) clearInterval(idleTimerInterval);
-            resultOverlay.classList.add('hidden');
-            if (window.__game) {
-              const gameScene = window.__game.scene.getScene('GameScene');
-              if (gameScene) {
-                gameScene.restartGame();
-              } else {
-                window.__game.scene.start('GameScene');
-              }
-            }
+            resetToStart();
           });
         }
 

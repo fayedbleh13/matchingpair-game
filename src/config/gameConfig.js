@@ -65,7 +65,7 @@ export const GAME_CONFIG = {
     }
   },
 
-  // 18 Cybersecurity Threat Vectors (Based on Threat Vector Suite)
+  // 8 Specific Cybersecurity Threat Vectors (Client Approved Suite)
   cardItems: [
     {
       id: 'phishing',
@@ -96,60 +96,11 @@ export const GAME_CONFIG = {
       imagePath: '/assets/images/threats/icon_hacking.png'
     },
     {
-      id: 'data_breach',
-      name: 'Data Breach',
-      color: 0xF05423,
-      textureKey: 'threat-data_breach',
-      imagePath: '/assets/images/threats/icon_data_breach.png'
-    },
-    {
-      id: 'cloud_threats',
-      name: 'Cloud Threats',
-      color: 0xF05423,
-      textureKey: 'threat-cloud_threats',
-      imagePath: '/assets/images/threats/icon_cloud_threats.png'
-    },
-    {
-      id: 'vulnerabilities',
-      name: 'Vulnerabilities',
-      color: 0xF05423,
-      textureKey: 'threat-vulnerabilities',
-      imagePath: '/assets/images/threats/icon_vulnerabilities.png'
-    },
-    {
-      id: 'network_attacks',
-      name: 'Network Attacks',
-      color: 0xF05423,
-      textureKey: 'threat-network_attacks',
-      imagePath: '/assets/images/threats/icon_network_attacks.png'
-    },
-    {
       id: 'zero_day',
       name: 'Zero-Day Exploits',
       color: 0xF05423,
       textureKey: 'threat-zero_day',
       imagePath: '/assets/images/threats/icon_zero_day.png'
-    },
-    {
-      id: 'malicious_files',
-      name: 'Malicious Files',
-      color: 0xF05423,
-      textureKey: 'threat-malicious_files',
-      imagePath: '/assets/images/threats/icon_malicious_files.png'
-    },
-    {
-      id: 'insider_threats',
-      name: 'Insider Threats',
-      color: 0xF05423,
-      textureKey: 'threat-insider_threats',
-      imagePath: '/assets/images/threats/icon_insider_threats.png'
-    },
-    {
-      id: 'ddos_attacks',
-      name: 'DDoS Attacks',
-      color: 0xF05423,
-      textureKey: 'threat-ddos_attacks',
-      imagePath: '/assets/images/threats/icon_ddos_attacks.png'
     },
     {
       id: 'malicious_usb',
@@ -159,39 +110,18 @@ export const GAME_CONFIG = {
       imagePath: '/assets/images/threats/icon_malicious_usb.png'
     },
     {
-      id: 'social_engineering',
-      name: 'Social Engineering',
+      id: 'network_attacks',
+      name: 'Network Attacks',
       color: 0xF05423,
-      textureKey: 'threat-social_engineering',
-      imagePath: '/assets/images/threats/icon_social_engineering.png'
+      textureKey: 'threat-network_attacks',
+      imagePath: '/assets/images/threats/icon_network_attacks.png'
     },
     {
-      id: 'mobile_threats',
-      name: 'Mobile Threats',
+      id: 'malicious_files',
+      name: 'Malicious Files',
       color: 0xF05423,
-      textureKey: 'threat-mobile_threats',
-      imagePath: '/assets/images/threats/icon_mobile_threats.png'
-    },
-    {
-      id: 'rogue_wifi',
-      name: 'Rogue Wi-Fi',
-      color: 0xF05423,
-      textureKey: 'threat-rogue_wifi',
-      imagePath: '/assets/images/threats/icon_rogue_wifi.png'
-    },
-    {
-      id: 'misconfigurations',
-      name: 'Misconfigurations',
-      color: 0xF05423,
-      textureKey: 'threat-misconfigurations',
-      imagePath: '/assets/images/threats/icon_misconfigurations.png'
-    },
-    {
-      id: 'unpatched_systems',
-      name: 'Unpatched Systems',
-      color: 0xF05423,
-      textureKey: 'threat-unpatched_systems',
-      imagePath: '/assets/images/threats/icon_unpatched_systems.png'
+      textureKey: 'threat-malicious_files',
+      imagePath: '/assets/images/threats/icon_malicious_files.png'
     }
   ]
 };

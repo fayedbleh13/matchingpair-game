@@ -530,22 +530,99 @@ export class GameScene extends Phaser.Scene {
     this.drawTimerBar();
     this.drawTimerCircle();
 
-    // Select 8 SonicWall cybersecurity cards (8 pairs = 16 cards)
-    const allItems = [...GAME_CONFIG.cardItems];
-    Phaser.Utils.Array.Shuffle(allItems);
-    const chosenItems = allItems.slice(0, 8);
-
-    // Duplicate for pairs
-    const deck = [...chosenItems, ...chosenItems];
-    Phaser.Utils.Array.Shuffle(deck);
-
-    this.deckData = deck;
+    // Generate highly unpredictable deck with guaranteed anti-clustering dispersion
+    this.deckData = this.generateUnpredictableDeck(GAME_CONFIG.cardItems);
     this.layoutCards();
 
     // Make immediately interactable and start countdown timer
     this.canClick = true;
     this.startTimer();
     this.dealCards(fastDeal);
+  }
+
+  // High-entropy shuffle with anti-clustering dispersion:
+  // Guarantees that matching threat pairs are NEVER directly adjacent horizontally or vertically,
+  // preventing lucky adjacent clicks and ensuring every game requires genuine spatial memory exploration.
+  generateUnpredictableDeck(items) {
+    const deck = [...items, ...items];
+    const len = deck.length;
+
+    // Cryptographic / high-entropy random integer
+    const getRandomInt = (max) => {
+      if (typeof window !== 'undefined' && window.crypto && window.crypto.getRandomValues) {
+        const buf = new Uint32Array(1);
+        window.crypto.getRandomValues(buf);
+        return buf[0] % max;
+      }
+      return Math.floor(Math.random() * max);
+    };
+
+    // 1. Triple-pass Fisher-Yates high-entropy shuffle
+    for (let pass = 0; pass < 3; pass++) {
+      for (let i = len - 1; i > 0; i--) {
+        const j = getRandomInt(i + 1);
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+      }
+    }
+
+    // 2. Anti-clustering dispersion solver (Manhattan distance >= 2)
+    // Ensures cards sharing an edge (dist < 2) never share the same threat vector
+    const isAdjacent = (idx1, idx2) => {
+      const r1 = Math.floor(idx1 / 4), c1 = idx1 % 4;
+      const r2 = Math.floor(idx2 / 4), c2 = idx2 % 4;
+      return (Math.abs(r1 - r2) + Math.abs(c1 - c2)) < 2;
+    };
+
+    let attempts = 200;
+    while (attempts-- > 0) {
+      let hasAdjacentPair = false;
+
+      for (let i = 0; i < len; i++) {
+        for (let j = i + 1; j < len; j++) {
+          if (deck[i].id === deck[j].id && isAdjacent(i, j)) {
+            hasAdjacentPair = true;
+
+            // Search for an eligible swap cell k that eliminates adjacency
+            let swapped = false;
+            for (let k = 0; k < len; k++) {
+              if (k !== i && k !== j && deck[k].id !== deck[j].id) {
+                // Perform speculative swap
+                [deck[j], deck[k]] = [deck[k], deck[j]];
+
+                // Validate that neither j nor k creates an adjacent duplicate
+                let valid = true;
+                for (let m = 0; m < len; m++) {
+                  if (m !== j && deck[m].id === deck[j].id && isAdjacent(m, j)) { valid = false; break; }
+                  if (m !== k && deck[m].id === deck[k].id && isAdjacent(m, k)) { valid = false; break; }
+                }
+
+                if (valid) {
+                  swapped = true;
+                  break;
+                } else {
+                  // Revert swap
+                  [deck[j], deck[k]] = [deck[k], deck[j]];
+                }
+              }
+            }
+
+            if (!swapped) {
+              // Reshuffle completely and re-try
+              for (let s = len - 1; s > 0; s--) {
+                const r = getRandomInt(s + 1);
+                [deck[s], deck[r]] = [deck[r], deck[s]];
+              }
+            }
+            break;
+          }
+        }
+        if (hasAdjacentPair) break;
+      }
+
+      if (!hasAdjacentPair) break;
+    }
+
+    return deck;
   }
 
   layoutCards() {
@@ -625,11 +702,27 @@ export class GameScene extends Phaser.Scene {
   }
 
   dealCards(fastDeal = false) {
-    this.cards.forEach((card, index) => {
-      card.setAlpha(1);
-      card.setScale(1);
-      this.time.delayedCall(index * (fastDeal ? 8 : 15), () => {
-        sounds.playDeal(index);
+    // Unpredictable non-linear arcade dealing sequence across matrix
+    const order = Array.from({ length: this.cards.length }, (_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+
+    order.forEach((cardIndex, seqIndex) => {
+      const card = this.cards[cardIndex];
+      card.setAlpha(0);
+      card.setScale(0.85);
+      this.time.delayedCall(seqIndex * (fastDeal ? 10 : 20), () => {
+        sounds.playDeal(cardIndex);
+        this.tweens.add({
+          targets: card,
+          alpha: 1,
+          scaleX: 1,
+          scaleY: 1,
+          duration: 160,
+          ease: 'Back.easeOut'
+        });
       });
     });
   }

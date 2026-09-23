@@ -149,10 +149,10 @@ export class Card extends Phaser.GameObjects.Container {
     this.frontBg.lineStyle(4, 0xe2e8f0, 1);
     this.frontBg.strokeRoundedRect(-w / 2, -h / 2, w, h, r);
 
-    // Centered Official Transparent PNG Cybersecurity Icon (Logo only, slightly bigger)
-    const iconTargetW = w * 0.92;
-    const iconTargetH = h * 0.92;
-    const iconCenterY = 0;
+    // Threat Vector Icon (Cleanly centered in upper portion)
+    const iconTargetW = w * 0.74;
+    const iconTargetH = h * 0.58;
+    const iconCenterY = -Math.floor(h * 0.09);
 
     if (this.scene.textures.exists(this.cardData.textureKey)) {
       this.frontIcon = this.scene.add.image(0, iconCenterY, this.cardData.textureKey);
@@ -162,12 +162,26 @@ export class Card extends Phaser.GameObjects.Container {
       const scale = Math.min(iconTargetW / origW, iconTargetH / origH);
       this.frontIcon.setDisplaySize(origW * scale, origH * scale);
     } else {
-      this.frontIcon = this.scene.add.text(0, iconCenterY, '🛡️', {
-        fontSize: `${Math.floor(iconTargetH * 0.7)}px`
+      this.frontIcon = this.scene.add.text(0, iconCenterY, '⚠️', {
+        fontSize: `${Math.floor(iconTargetH * 0.65)}px`
       }).setOrigin(0.5);
     }
 
-    this.frontView.add([this.frontBg, this.frontIcon]);
+    // Threat Vector Title Label (Crisp, bold uppercase below icon)
+    const labelFontSize = Math.max(9, Math.floor(w * 0.088));
+    const labelName = (this.cardData && this.cardData.name) ? this.cardData.name.toUpperCase() : '';
+    this.frontLabel = this.scene.add.text(0, Math.floor(h * 0.32), labelName, {
+      fontFamily: 'Outfit',
+      fontSize: `${labelFontSize}px`,
+      fontWeight: '900',
+      color: '#0b1325',
+      letterSpacing: 0.5,
+      align: 'center',
+      lineSpacing: -2,
+      wordWrap: { width: Math.floor(w * 0.88) }
+    }).setOrigin(0.5);
+
+    this.frontView.add([this.frontBg, this.frontIcon, this.frontLabel]);
     this.add(this.frontView);
   }
 

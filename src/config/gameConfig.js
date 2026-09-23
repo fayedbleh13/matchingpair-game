@@ -65,70 +65,133 @@ export const GAME_CONFIG = {
     }
   },
 
-  // 8 SonicWall Official Cybersecurity Card Items (High Quality PNGs)
+  // 18 Cybersecurity Threat Vectors (Based on Threat Vector Suite)
   cardItems: [
     {
-      id: 'university',
-      name: 'SonicWall University',
+      id: 'phishing',
+      name: 'Phishing',
       color: 0xF05423,
-      textureKey: 'sw-university',
-      imagePath: '/assets/images/sonicwall-university.png'
+      textureKey: 'threat-phishing',
+      imagePath: '/assets/images/threats/icon_phishing.png'
     },
     {
-      id: 'cloud',
-      name: 'Cloud Edge',
-      color: 0x00D8F6,
-      textureKey: 'sw-cloud',
-      imagePath: '/assets/images/icon-cloud.png'
-    },
-    {
-      id: 'nsa',
-      name: 'NSA Firewall',
-      color: 0x3B82F6,
-      textureKey: 'sw-nsa',
-      imagePath: '/assets/images/icon-nsa.png'
-    },
-    {
-      id: 'cse',
-      name: 'Cloud Secure Edge',
-      color: 0x00D8F6,
-      textureKey: 'sw-cse',
-      imagePath: '/assets/images/icon-cse.png'
-    },
-    {
-      id: 'endpoint',
-      name: 'Endpoint Security',
-      color: 0x8B5CF6,
-      textureKey: 'sw-endpoint',
-      imagePath: '/assets/images/icon-endpoint.png'
-    },
-    {
-      id: 'analytics',
-      name: 'Analytics & Reporting',
-      color: 0x10B981,
-      textureKey: 'sw-analytics',
-      imagePath: '/assets/images/icon-analytics.png'
-    },
-    {
-      id: 'securefirst_shield',
-      name: 'SecureFirst Shield',
-      color: 0xF59E0B,
-      textureKey: 'sw-securefirst-shield',
-      imagePath: '/assets/images/icon-securefirst-shield.png'
-    },
-    {
-      id: 'wit',
-      name: 'Women in Tech',
-      color: 0xEC4899,
-      textureKey: 'sw-wit',
-      imagePath: '/assets/images/icon-wit.png'
-    },
-    {
-      id: 'securefirst_partner',
-      name: 'SecureFirst Partner',
+      id: 'malware',
+      name: 'Malware',
       color: 0xF05423,
-      textureKey: 'sw-untitled-transparent',
-      imagePath: '/assets/images/Untitled-transparent.png'
+      textureKey: 'threat-malware',
+      imagePath: '/assets/images/threats/icon_malware.png'
+    },
+    {
+      id: 'ransomware',
+      name: 'Ransomware',
+      color: 0xF05423,
+      textureKey: 'threat-ransomware',
+      imagePath: '/assets/images/threats/icon_ransomware.png'
+    },
+    {
+      id: 'hacking',
+      name: 'Hacking',
+      color: 0xF05423,
+      textureKey: 'threat-hacking',
+      imagePath: '/assets/images/threats/icon_hacking.png'
+    },
+    {
+      id: 'data_breach',
+      name: 'Data Breach',
+      color: 0xF05423,
+      textureKey: 'threat-data_breach',
+      imagePath: '/assets/images/threats/icon_data_breach.png'
+    },
+    {
+      id: 'cloud_threats',
+      name: 'Cloud Threats',
+      color: 0xF05423,
+      textureKey: 'threat-cloud_threats',
+      imagePath: '/assets/images/threats/icon_cloud_threats.png'
+    },
+    {
+      id: 'vulnerabilities',
+      name: 'Vulnerabilities',
+      color: 0xF05423,
+      textureKey: 'threat-vulnerabilities',
+      imagePath: '/assets/images/threats/icon_vulnerabilities.png'
+    },
+    {
+      id: 'network_attacks',
+      name: 'Network Attacks',
+      color: 0xF05423,
+      textureKey: 'threat-network_attacks',
+      imagePath: '/assets/images/threats/icon_network_attacks.png'
+    },
+    {
+      id: 'zero_day',
+      name: 'Zero-Day Exploits',
+      color: 0xF05423,
+      textureKey: 'threat-zero_day',
+      imagePath: '/assets/images/threats/icon_zero_day.png'
+    },
+    {
+      id: 'malicious_files',
+      name: 'Malicious Files',
+      color: 0xF05423,
+      textureKey: 'threat-malicious_files',
+      imagePath: '/assets/images/threats/icon_malicious_files.png'
+    },
+    {
+      id: 'insider_threats',
+      name: 'Insider Threats',
+      color: 0xF05423,
+      textureKey: 'threat-insider_threats',
+      imagePath: '/assets/images/threats/icon_insider_threats.png'
+    },
+    {
+      id: 'ddos_attacks',
+      name: 'DDoS Attacks',
+      color: 0xF05423,
+      textureKey: 'threat-ddos_attacks',
+      imagePath: '/assets/images/threats/icon_ddos_attacks.png'
+    },
+    {
+      id: 'malicious_usb',
+      name: 'Malicious USB',
+      color: 0xF05423,
+      textureKey: 'threat-malicious_usb',
+      imagePath: '/assets/images/threats/icon_malicious_usb.png'
+    },
+    {
+      id: 'social_engineering',
+      name: 'Social Engineering',
+      color: 0xF05423,
+      textureKey: 'threat-social_engineering',
+      imagePath: '/assets/images/threats/icon_social_engineering.png'
+    },
+    {
+      id: 'mobile_threats',
+      name: 'Mobile Threats',
+      color: 0xF05423,
+      textureKey: 'threat-mobile_threats',
+      imagePath: '/assets/images/threats/icon_mobile_threats.png'
+    },
+    {
+      id: 'rogue_wifi',
+      name: 'Rogue Wi-Fi',
+      color: 0xF05423,
+      textureKey: 'threat-rogue_wifi',
+      imagePath: '/assets/images/threats/icon_rogue_wifi.png'
+    },
+    {
+      id: 'misconfigurations',
+      name: 'Misconfigurations',
+      color: 0xF05423,
+      textureKey: 'threat-misconfigurations',
+      imagePath: '/assets/images/threats/icon_misconfigurations.png'
+    },
+    {
+      id: 'unpatched_systems',
+      name: 'Unpatched Systems',
+      color: 0xF05423,
+      textureKey: 'threat-unpatched_systems',
+      imagePath: '/assets/images/threats/icon_unpatched_systems.png'
     }
   ]
 };

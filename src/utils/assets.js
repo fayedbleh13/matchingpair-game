@@ -4,21 +4,28 @@
 export function preloadGameAssets(scene) {
   const images = [
     { key: 'sw-brand-logo', path: '/assets/images/sonicwall-logo.png' },
-    { key: 'sw-university', path: '/assets/images/sonicwall-university.png' },
-    { key: 'sw-untitled-transparent', path: '/assets/images/Untitled-transparent.png' },
-    { key: 'sw-swoosh', path: '/assets/images/icon-swoosh.png' },
-    { key: 'sw-cloud', path: '/assets/images/icon-cloud.png' },
-    { key: 'sw-nsa', path: '/assets/images/icon-nsa.png' },
-    { key: 'sw-cse', path: '/assets/images/icon-cse.png' },
-    { key: 'sw-endpoint', path: '/assets/images/icon-endpoint.png' },
-    { key: 'sw-analytics', path: '/assets/images/icon-analytics.png' },
-    { key: 'sw-securefirst-shield', path: '/assets/images/icon-securefirst-shield.png' },
-    { key: 'sw-untitled', path: '/assets/images/Untitled-transparent.png' },
-    { key: 'sw-wit', path: '/assets/images/icon-wit.png' },
-    { key: 'sw-shield', path: '/assets/images/icon-shield.png' },
-    { key: 'sw-identity', path: '/assets/images/icon-identity.png' },
-    { key: 'sw-securefirst', path: '/assets/images/icon-securefirst.png' },
-    { key: 'sw-logo', path: '/assets/images/sonicwall-logo.png' }
+    { key: 'sw-swoosh', path: '/assets/images/icon-swoosh-centered.png' },
+    { key: 'sw-logo', path: '/assets/images/sonicwall-logo.png' },
+
+    // 18 Threat Vectors
+    { key: 'threat-phishing', path: '/assets/images/threats/icon_phishing.png' },
+    { key: 'threat-malware', path: '/assets/images/threats/icon_malware.png' },
+    { key: 'threat-ransomware', path: '/assets/images/threats/icon_ransomware.png' },
+    { key: 'threat-hacking', path: '/assets/images/threats/icon_hacking.png' },
+    { key: 'threat-data_breach', path: '/assets/images/threats/icon_data_breach.png' },
+    { key: 'threat-cloud_threats', path: '/assets/images/threats/icon_cloud_threats.png' },
+    { key: 'threat-vulnerabilities', path: '/assets/images/threats/icon_vulnerabilities.png' },
+    { key: 'threat-network_attacks', path: '/assets/images/threats/icon_network_attacks.png' },
+    { key: 'threat-zero_day', path: '/assets/images/threats/icon_zero_day.png' },
+    { key: 'threat-malicious_files', path: '/assets/images/threats/icon_malicious_files.png' },
+    { key: 'threat-insider_threats', path: '/assets/images/threats/icon_insider_threats.png' },
+    { key: 'threat-ddos_attacks', path: '/assets/images/threats/icon_ddos_attacks.png' },
+    { key: 'threat-malicious_usb', path: '/assets/images/threats/icon_malicious_usb.png' },
+    { key: 'threat-social_engineering', path: '/assets/images/threats/icon_social_engineering.png' },
+    { key: 'threat-mobile_threats', path: '/assets/images/threats/icon_mobile_threats.png' },
+    { key: 'threat-rogue_wifi', path: '/assets/images/threats/icon_rogue_wifi.png' },
+    { key: 'threat-misconfigurations', path: '/assets/images/threats/icon_misconfigurations.png' },
+    { key: 'threat-unpatched_systems', path: '/assets/images/threats/icon_unpatched_systems.png' }
   ];
 
   images.forEach(img => {

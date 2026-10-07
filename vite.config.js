@@ -7,23 +7,31 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'assets/**/*'],
       manifest: {
-        name: 'Event Matching Pair Game',
-        short_name: 'Pair Game',
+        name: 'SonicWall Cyber Match | Threat Defense Challenge',
+        short_name: 'Cyber Match',
         description: 'Interactive fast-paced event matching pair game',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
-        display: 'fullscreen',
+        theme_color: '#0b1325',
+        background_color: '#0b1325',
+        start_url: '/',
+        scope: '/',
+        display: 'standalone',
         orientation: 'any',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: '/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'pwa-512x512.png',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png'
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
           }
         ]
       },

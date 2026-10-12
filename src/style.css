@@ -129,63 +129,48 @@ html, body {
 
 .kiosk-step-header,
 .kiosk-tag-text {
-  font-size: clamp(9.5px, 2.2cqw, 28px);
-}
-
-.kiosk-reward-card {
-  padding: clamp(7px, 1.8cqw, 30px) clamp(10px, 2.4cqw, 38px);
-  border-radius: clamp(10px, 2.4cqw, 28px);
-}
-
-.kiosk-reward-badge {
-  font-size: clamp(8px, 1.7cqw, 22px);
-  padding: clamp(1px, 0.35cqw, 6px) clamp(6px, 1.3cqw, 18px);
-}
-
-.kiosk-reward-rule {
-  font-size: clamp(9.5px, 2.3cqw, 30px);
-}
-
-.kiosk-reward-item {
-  font-size: clamp(11.5px, 2.8cqw, 38px);
+  font-size: clamp(10px, 2.2cqw, 32px);
 }
 
 .kiosk-step-card {
-  padding: clamp(6px, 1.6cqw, 30px) clamp(8px, 2.2cqw, 36px);
-  border-radius: clamp(8px, 1.8cqw, 26px);
+  padding: clamp(6.5px, 1.6cqw, 30px) clamp(10px, 2.2cqw, 40px);
+  border-radius: clamp(8px, 1.9cqw, 28px);
+}
+
+.kiosk-reward-card {
+  padding: clamp(8px, 1.8cqw, 34px) clamp(12px, 2.4cqw, 44px);
+  border-radius: clamp(9px, 2cqw, 30px);
 }
 
 .kiosk-step-icon-box {
-  width: clamp(26px, 6.5cqw, 88px);
-  height: clamp(26px, 6.5cqw, 88px);
+  width: clamp(26px, 5.8cqw, 84px);
+  height: clamp(26px, 5.8cqw, 84px);
   border-radius: clamp(6px, 1.4cqw, 22px);
 }
 
 .kiosk-step-icon {
-  font-size: clamp(15px, 3.6cqw, 48px) !important;
+  font-size: clamp(15px, 3.4cqw, 48px) !important;
 }
 
-.kiosk-step-badge {
-  font-size: clamp(8px, 1.7cqw, 20px);
-  padding: clamp(1px, 0.3cqw, 6px) clamp(5px, 1.2cqw, 16px);
+.kiosk-step-badge,
+.kiosk-reward-badge {
+  font-size: clamp(8.5px, 1.8cqw, 24px);
+  padding: clamp(1.5px, 0.3cqw, 6px) clamp(6px, 1.3cqw, 18px);
 }
 
 .kiosk-step-title {
-  font-size: clamp(10px, 2.4cqw, 34px);
+  font-size: clamp(11.5px, 2.4cqw, 38px);
 }
 
-.kiosk-step-desc {
-  font-size: clamp(8.5px, 2cqw, 26px);
+.kiosk-reward-item {
+  font-size: clamp(12px, 2.5cqw, 40px);
+  line-height: 1.3;
+}
+
+.kiosk-step-desc,
+.kiosk-reward-rule {
+  font-size: clamp(9.5px, 2cqw, 30px);
   line-height: 1.35;
-}
-
-.kiosk-footer-status {
-  font-size: clamp(8.5px, 2cqw, 24px);
-  padding: clamp(3px, 0.7cqw, 14px) clamp(10px, 2.4cqw, 38px);
-}
-
-.kiosk-footer-brand {
-  font-size: clamp(7.5px, 1.7cqw, 22px);
 }
 
 /* Result Screen Fluid Scaling */

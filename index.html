@@ -182,8 +182,67 @@
             </div>
           </div>
 
-          <!-- Event Rewards Section (Clean 2-Tier Prize Milestones) -->
-          <div class="w-full flex flex-col space-y-2 shrink-0 my-auto">
+          <!-- Instructions Section (Standardized 3 Steps) -->
+          <div class="w-full flex flex-col space-y-1.5 shrink-0 my-auto">
+            <div class="flex items-center justify-between px-1 pb-0.5">
+              <span class="font-label-caps kiosk-step-header text-secondary tracking-widest uppercase flex items-center space-x-1 font-bold">
+                <span class="material-symbols-outlined text-secondary" style="font-size: 1.15em;">help</span>
+                <span>HOW TO PLAY // 3 STEPS</span>
+              </span>
+              <span class="font-label-caps kiosk-step-header text-secondary-fixed/90 tracking-widest uppercase font-bold">STANDARDIZED PROTOCOL</span>
+            </div>
+
+            <!-- Step 1 Card -->
+            <div class="w-full bg-surface-container kiosk-step-card shadow-md flex items-center space-x-2.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 kiosk-step-icon-box bg-surface-container-highest flex items-center justify-center text-secondary shadow-inner">
+                <span class="material-symbols-outlined kiosk-step-icon">touch_app</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="font-label-caps kiosk-step-badge bg-secondary/15 text-secondary rounded-sm font-bold">STEP 01</span>
+                  <h3 class="font-headline-sm kiosk-step-title font-bold text-white truncate">Tap to Flip</h3>
+                </div>
+                <p class="font-body-sm kiosk-step-desc text-on-surface-variant mt-0.5">
+                  Touch cards to reveal encrypted defense shields & threat signatures.
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2 Card -->
+            <div class="w-full bg-surface-container kiosk-step-card shadow-md flex items-center space-x-2.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 kiosk-step-icon-box bg-surface-container-highest flex items-center justify-center shadow-inner overflow-hidden">
+                <img src="/assets/images/icon-swoosh-centered.png" alt="SonicWall" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,94,0,0.45)]" />
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="font-label-caps kiosk-step-badge bg-tertiary/15 text-tertiary rounded-sm font-bold">STEP 02</span>
+                  <h3 class="font-headline-sm kiosk-step-title font-bold text-white truncate">Match Pairs</h3>
+                </div>
+                <p class="font-body-sm kiosk-step-desc text-on-surface-variant mt-0.5">
+                  Link matching threat vectors (Ransomware, Malware, Phishing).
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 Card -->
+            <div class="w-full bg-surface-container kiosk-step-card shadow-md flex items-center space-x-2.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
+              <div class="shrink-0 kiosk-step-icon-box bg-surface-container-highest flex items-center justify-center text-primary-container shadow-inner">
+                <span class="material-symbols-outlined kiosk-step-icon">timer</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center space-x-2">
+                  <span class="font-label-caps kiosk-step-badge bg-primary-container/20 text-primary rounded-sm font-bold">STEP 03</span>
+                  <h3 class="font-headline-sm kiosk-step-title font-bold text-white truncate">Beat the Clock</h3>
+                </div>
+                <p class="font-body-sm kiosk-step-desc text-on-surface-variant mt-0.5">
+                  Neutralize all 6 pairs in 20s to claim trade show swag!
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Event Rewards Section (Restored Sleek Design with Proportional Balanced Sizing) -->
+          <div class="w-full flex flex-col space-y-1.5 shrink-0 my-auto pb-1">
             <div class="flex items-center justify-between px-1 pb-0.5">
               <span class="font-label-caps kiosk-step-header text-primary tracking-widest uppercase flex items-center space-x-1.5 font-bold">
                 <span class="material-symbols-outlined text-primary" style="font-size: 1.15em;">military_tech</span>
@@ -193,44 +252,33 @@
             </div>
 
             <!-- Tier 1: 6 Matching Pairs -->
-            <div class="w-full bg-surface-container kiosk-reward-card shadow-md flex items-center space-x-3 border-2 border-primary/55 relative overflow-hidden transition-transform active:scale-[0.99] py-3.5 sm:py-4">
+            <div class="w-full bg-surface-container kiosk-reward-card shadow-md flex items-center space-x-3 border-2 border-primary/55 relative overflow-hidden transition-transform active:scale-[0.99]">
               <div class="w-1.5 self-stretch bg-gradient-to-b from-primary to-[#FACC15] rounded-full shrink-0"></div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between gap-1">
                   <span class="font-label-caps kiosk-reward-rule text-primary font-black uppercase tracking-wider">Completed 6 matching pairs</span>
-                  <span class="font-label-caps kiosk-reward-badge text-[#FACC15] bg-[#FACC15]/15 rounded font-extrabold uppercase shrink-0">TOP PRIZE</span>
+                  <span class="font-label-caps kiosk-reward-badge text-[#FACC15] bg-[#FACC15]/20 rounded-sm font-extrabold uppercase shrink-0">TOP PRIZE</span>
                 </div>
-                <p class="font-headline-sm kiosk-reward-item text-white font-black leading-snug mt-1">
+                <h3 class="font-headline-sm kiosk-reward-item text-white font-black leading-snug mt-1">
                   Universal adapter or laptop sleeve or multi-headed cable
-                </p>
+                </h3>
               </div>
             </div>
 
             <!-- Tier 2: Consolation -->
-            <div class="w-full bg-surface-container kiosk-reward-card shadow-md flex items-center space-x-3 border-2 border-surface-container-highest/60 relative overflow-hidden transition-transform active:scale-[0.99] py-3 sm:py-3.5">
+            <div class="w-full bg-surface-container kiosk-reward-card shadow-md flex items-center space-x-3 border-2 border-surface-container-highest/60 relative overflow-hidden transition-transform active:scale-[0.99]">
               <div class="w-1.5 self-stretch bg-surface-container-highest rounded-full shrink-0"></div>
               <div class="flex-1 min-w-0">
                 <div class="flex items-center justify-between gap-1">
                   <span class="font-label-caps kiosk-reward-rule text-on-surface-variant font-black uppercase tracking-wider">Consolation</span>
-                  <span class="font-label-caps kiosk-reward-badge text-on-surface-variant bg-surface-container-highest/60 rounded font-extrabold uppercase shrink-0">CONSOLATION</span>
+                  <span class="font-label-caps kiosk-reward-badge text-on-surface-variant bg-surface-container-highest/70 rounded-sm font-extrabold uppercase shrink-0">CONSOLATION</span>
                 </div>
-                <p class="font-headline-sm kiosk-reward-item text-white font-black leading-snug mt-1">
+                <h3 class="font-headline-sm kiosk-reward-item text-white font-black leading-snug mt-1">
                   Storage pouch
-                </p>
+                </h3>
               </div>
             </div>
           </div>
-
-          <!-- Booth Kiosk Ambient Footer Status (Clear, Distinct Gap & Prominent Display) -->
-          <footer class="w-full flex flex-col items-center text-center space-y-0.5 shrink-0 pt-0.5 pb-0.5">
-            <div class="flex items-center space-x-2 text-on-surface-variant font-telemetry-sm kiosk-footer-status bg-surface-container-lowest rounded-full border border-surface-container-highest/30 shadow-md">
-              <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-              <span class="text-on-surface font-semibold">Touch screen to begin</span>
-            </div>
-            <span class="font-label-caps kiosk-footer-brand text-on-surface-variant/60 uppercase tracking-widest pt-0.5">
-              SonicWall Interactive Booth Experience
-            </span>
-          </footer>
 
         </main>
       </div>

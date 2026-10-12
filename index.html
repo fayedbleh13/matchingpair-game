@@ -130,7 +130,7 @@
             </div>
             <div class="flex items-center space-x-2 bg-surface-container-lowest kiosk-header-tag rounded shadow-sm">
               <span class="material-symbols-outlined text-secondary" style="font-size: 1.15em;">grid_view</span>
-              <span class="font-telemetry-sm tracking-wider text-secondary font-bold kiosk-tag-text">16 CARDS • 8 PAIRS</span>
+              <span class="font-telemetry-sm tracking-wider text-secondary font-bold kiosk-tag-text">12 CARDS • 6 PAIRS</span>
             </div>
           </header>
 
@@ -154,22 +154,21 @@
 
             <!-- Subtitle -->
             <p class="font-body-md kiosk-subtitle text-on-surface-variant text-center font-semibold mx-auto">
-              Neutralize incoming cybersecurity threats before the countdown reaches zero!
+              Match all pairs before the countdown reaches zero!
             </p>
           </div>
 
-          <!-- Primary START GAME Button (Centered, balanced arcade proportions, safe glow) -->
+          <!-- Primary START GAME Button (Clean, bold, takes over without sub-matrix text) -->
           <div class="w-full flex flex-col items-center shrink-0 my-auto">
-            <button class="group relative w-[calc(100%-20px)] bg-primary-container hover:bg-[#EE4400] active:scale-[0.98] transition-all duration-150 kiosk-btn flex items-center justify-between cursor-pointer overflow-hidden" id="startGameBtn">
+            <button class="group relative w-[calc(100%-20px)] bg-primary-container hover:bg-[#EE4400] active:scale-[0.98] transition-all duration-150 kiosk-btn flex items-center justify-between cursor-pointer overflow-hidden py-3.5 sm:py-4.5" id="startGameBtn">
               <!-- Animated Scanner Beam Sweep inside Button -->
               <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none"></div>
-              <div class="flex items-center space-x-2.5 sm:space-x-3.5 z-10">
+              <div class="flex items-center space-x-3 sm:space-x-4 z-10">
                 <div class="kiosk-btn-icon-box bg-on-primary/20 flex items-center justify-center text-on-primary shadow-sm shrink-0">
                   <span class="material-symbols-outlined kiosk-btn-icon font-black" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
                 </div>
-                <div class="flex flex-col text-left">
+                <div class="flex items-center text-left">
                   <span class="font-headline-lg kiosk-btn-title text-on-primary font-black tracking-wide uppercase leading-none">START GAME</span>
-                  <span class="font-telemetry-sm kiosk-btn-sub text-on-primary/90 mt-0.5 uppercase tracking-wider font-bold">Standard 4x4 Arcade Matrix</span>
                 </div>
               </div>
               <div class="z-10 flex items-center justify-center bg-on-primary/20 rounded-full kiosk-btn-arrow group-hover:translate-x-1.5 transition-transform shrink-0">
@@ -179,64 +178,44 @@
             <!-- Tactical Micro-Note (20s Countdown) -->
             <div class="flex items-center space-x-1.5 mt-1 font-telemetry-sm kiosk-micro-note text-on-surface-variant font-medium">
               <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary-container"></span>
-              <span>8 Threat Pairs • 20s Rush • Instant Swag Entry</span>
+              <span>6 Threat Pairs • 20s Rush • Instant Swag Entry</span>
             </div>
           </div>
 
-          <!-- How To Section (3 Cards with clear arcade proportions) -->
-          <div class="w-full flex flex-col space-y-1 shrink-0 my-auto">
+          <!-- Event Rewards Section (Clean 2-Tier Prize Milestones) -->
+          <div class="w-full flex flex-col space-y-2 shrink-0 my-auto">
             <div class="flex items-center justify-between px-1 pb-0.5">
-              <span class="font-label-caps kiosk-step-header text-secondary tracking-widest uppercase flex items-center space-x-1 font-bold">
-                <span class="material-symbols-outlined text-secondary" style="font-size: 1.15em;">help</span>
-                <span>HOW TO PLAY // 3 STEPS</span>
+              <span class="font-label-caps kiosk-step-header text-primary tracking-widest uppercase flex items-center space-x-1.5 font-bold">
+                <span class="material-symbols-outlined text-primary" style="font-size: 1.15em;">military_tech</span>
+                <span>EVENT REWARDS & PRIZES</span>
               </span>
-              <span class="font-label-caps kiosk-step-header text-secondary-fixed/90 tracking-widest uppercase font-bold">STANDARDIZED PROTOCOL</span>
+              <span class="font-label-caps kiosk-step-header text-secondary font-bold tracking-widest uppercase">IN-BOOTH MILESTONES</span>
             </div>
 
-            <!-- Step 1 Card -->
-            <div class="w-full bg-surface-container kiosk-step-card shadow-md flex items-center space-x-2.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
-              <div class="shrink-0 kiosk-step-icon-box bg-surface-container-highest flex items-center justify-center text-secondary shadow-inner">
-                <span class="material-symbols-outlined kiosk-step-icon">touch_app</span>
-              </div>
+            <!-- Tier 1: 6 Matching Pairs -->
+            <div class="w-full bg-surface-container kiosk-reward-card shadow-md flex items-center space-x-3 border-2 border-primary/55 relative overflow-hidden transition-transform active:scale-[0.99] py-3.5 sm:py-4">
+              <div class="w-1.5 self-stretch bg-gradient-to-b from-primary to-[#FACC15] rounded-full shrink-0"></div>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center space-x-2">
-                  <span class="font-label-caps kiosk-step-badge bg-secondary/15 text-secondary rounded-sm font-bold">STEP 01</span>
-                  <h3 class="font-headline-sm kiosk-step-title font-bold text-white truncate">Tap to Flip</h3>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="font-label-caps kiosk-reward-rule text-primary font-black uppercase tracking-wider">Completed 6 matching pairs</span>
+                  <span class="font-label-caps kiosk-reward-badge text-[#FACC15] bg-[#FACC15]/15 rounded font-extrabold uppercase shrink-0">TOP PRIZE</span>
                 </div>
-                <p class="font-body-sm kiosk-step-desc text-on-surface-variant mt-0.5">
-                  Touch cards to reveal encrypted defense shields & threat signatures.
+                <p class="font-headline-sm kiosk-reward-item text-white font-black leading-snug mt-1">
+                  Universal adapter or laptop sleeve or multi-headed cable
                 </p>
               </div>
             </div>
 
-            <!-- Step 2 Card -->
-            <div class="w-full bg-surface-container kiosk-step-card shadow-md flex items-center space-x-2.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
-              <div class="shrink-0 kiosk-step-icon-box bg-surface-container-highest flex items-center justify-center shadow-inner overflow-hidden">
-                <img src="/assets/images/icon-swoosh-centered.png" alt="SonicWall" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,94,0,0.45)]" />
-              </div>
+            <!-- Tier 2: Consolation -->
+            <div class="w-full bg-surface-container kiosk-reward-card shadow-md flex items-center space-x-3 border-2 border-surface-container-highest/60 relative overflow-hidden transition-transform active:scale-[0.99] py-3 sm:py-3.5">
+              <div class="w-1.5 self-stretch bg-surface-container-highest rounded-full shrink-0"></div>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center space-x-2">
-                  <span class="font-label-caps kiosk-step-badge bg-tertiary/15 text-tertiary rounded-sm font-bold">STEP 02</span>
-                  <h3 class="font-headline-sm kiosk-step-title font-bold text-white truncate">Match Pairs</h3>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="font-label-caps kiosk-reward-rule text-on-surface-variant font-black uppercase tracking-wider">Consolation</span>
+                  <span class="font-label-caps kiosk-reward-badge text-on-surface-variant bg-surface-container-highest/60 rounded font-extrabold uppercase shrink-0">CONSOLATION</span>
                 </div>
-                <p class="font-body-sm kiosk-step-desc text-on-surface-variant mt-0.5">
-                  Link matching threat vectors (Ransomware, Malware, Phishing).
-                </p>
-              </div>
-            </div>
-
-            <!-- Step 3 Card -->
-            <div class="w-full bg-surface-container kiosk-step-card shadow-md flex items-center space-x-2.5 transition-transform active:scale-[0.99] border border-surface-container-highest/40">
-              <div class="shrink-0 kiosk-step-icon-box bg-surface-container-highest flex items-center justify-center text-primary-container shadow-inner">
-                <span class="material-symbols-outlined kiosk-step-icon">timer</span>
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center space-x-2">
-                  <span class="font-label-caps kiosk-step-badge bg-primary-container/20 text-primary rounded-sm font-bold">STEP 03</span>
-                  <h3 class="font-headline-sm kiosk-step-title font-bold text-white truncate">Beat the Clock</h3>
-                </div>
-                <p class="font-body-sm kiosk-step-desc text-on-surface-variant mt-0.5">
-                  Neutralize all 8 pairs in 20s to claim trade show swag!
+                <p class="font-headline-sm kiosk-reward-item text-white font-black leading-snug mt-1">
+                  Storage pouch
                 </p>
               </div>
             </div>
@@ -288,7 +267,7 @@
               CONGRATULATIONS!
             </h2>
             <p class="font-body-sm kiosk-result-subheadline text-secondary leading-snug font-medium max-w-sm" id="res-subheadline">
-              All 8 threat vectors neutralized in record time.
+              All 6 threat vectors neutralized in record time.
             </p>
           </div>
 
@@ -329,7 +308,7 @@
                   </div>
                   <div class="flex flex-col text-left">
                     <span class="font-label-caps kiosk-result-stat-label text-secondary uppercase tracking-wider font-bold">Threats Neutralized</span>
-                    <span class="font-telemetry-md kiosk-result-stat-val text-on-surface font-black" id="res-pairs-matched">8 / 8</span>
+                    <span class="font-telemetry-md kiosk-result-stat-val text-on-surface font-black" id="res-pairs-matched">6 / 6</span>
                   </div>
                 </div>
                 <span class="font-telemetry-sm text-[10px] text-tertiary px-2.5 py-1 rounded bg-tertiary/15 font-bold uppercase tracking-wider" id="res-threat-status">100% SECURED</span>
@@ -342,8 +321,8 @@
                     <span class="material-symbols-outlined text-lg">touch_app</span>
                   </div>
                   <div class="flex flex-col text-left">
-                    <span class="font-label-caps kiosk-result-stat-label text-secondary uppercase tracking-wider font-bold">Tactical Flips</span>
-                    <span class="font-telemetry-md kiosk-result-stat-val text-on-surface font-black" id="res-moves">14 Flips</span>
+                    <span class="font-label-caps kiosk-result-stat-label text-secondary uppercase tracking-wider font-bold">Successful Pairs</span>
+                    <span class="font-telemetry-md kiosk-result-stat-val text-on-surface font-black" id="res-moves">6 Pairs</span>
                   </div>
                 </div>
                 <span class="font-telemetry-sm text-[10px] text-tertiary px-2.5 py-1 rounded bg-tertiary/15 font-bold uppercase tracking-wider" id="res-accuracy">85% ACC</span>
@@ -476,7 +455,7 @@
             timeTaken = 14,
             maxStreak = 4,
             won = true,
-            pairsMatched = 8
+            pairsMatched = 6
           } = data || {};
 
           // Ensure game music continues playing on result screen
@@ -498,7 +477,7 @@
           if (won) {
             if (containmentElem) containmentElem.textContent = 'THREAT CONTAINMENT 100%';
             if (headlineElem) headlineElem.textContent = 'CONGRATULATIONS!';
-            if (subheadlineElem) subheadlineElem.textContent = 'All 8 threat vectors neutralized in record time.';
+            if (subheadlineElem) subheadlineElem.textContent = 'All 6 threat vectors neutralized in record time.';
             if (timeLabel) timeLabel.textContent = 'CLEARED IN:';
             if (timeDisplay) timeDisplay.textContent = `${timeTaken}s`;
 
@@ -516,10 +495,10 @@
               }
             }
           } else {
-            const pct = Math.round((pairsMatched / 8) * 100);
+            const pct = Math.round((pairsMatched / 6) * 100);
             if (containmentElem) containmentElem.textContent = `THREAT CONTAINMENT ${pct}%`;
             if (headlineElem) headlineElem.textContent = 'GAME OVER!';
-            if (subheadlineElem) subheadlineElem.textContent = `${pairsMatched} of 8 threat vectors neutralized.`;
+            if (subheadlineElem) subheadlineElem.textContent = `${pairsMatched} of 6 threat vectors neutralized.`;
             if (timeLabel) timeLabel.textContent = 'TIME ELAPSED:';
             if (timeDisplay) timeDisplay.textContent = '20s';
           }
@@ -527,13 +506,13 @@
           // Tactical Metrics (No scoring)
           const pairsElem = document.getElementById('res-pairs-matched');
           const threatStatus = document.getElementById('res-threat-status');
-          if (pairsElem) pairsElem.textContent = `${pairsMatched} / 8`;
-          if (threatStatus) threatStatus.textContent = pairsMatched >= 8 ? '100% SECURED' : `${pairsMatched} PAIRS`;
+          if (pairsElem) pairsElem.textContent = `${pairsMatched} / 6`;
+          if (threatStatus) threatStatus.textContent = pairsMatched >= 6 ? '100% SECURED' : `${pairsMatched} PAIRS`;
 
           const movesElem = document.getElementById('res-moves');
           const accElem = document.getElementById('res-accuracy');
-          const acc = Math.min(100, Math.round((8 / Math.max(8, moves)) * 100));
-          if (movesElem) movesElem.textContent = `${moves} Flips`;
+          const acc = Math.min(100, Math.round(((pairsMatched * 2) / Math.max(1, moves)) * 100));
+          if (movesElem) movesElem.textContent = `${pairsMatched} Pairs`;
           if (accElem) accElem.textContent = `${acc}% ACC`;
 
           const streakElem = document.getElementById('res-streak');

@@ -25,7 +25,7 @@ export class GameScene extends Phaser.Scene {
     this.currentRound = 1;
     this.totalPairsMatched = 0;
     this.matchedInRound = 0;
-    this.totalPairsPerRound = 8; // 8 pairs = 16 cards (4x4 grid)
+    this.totalPairsPerRound = GAME_CONFIG.progression.pairs || 6; // 6 pairs = 12 cards (4x3 grid)
     this.moves = 0;
     this.comboStreak = 0;
     this.totalScore = 0;
@@ -255,9 +255,10 @@ export class GameScene extends Phaser.Scene {
       letterSpacing: 1.5
     }).setOrigin(0.5);
 
-    this.prizeStatusText = this.add.text(prizePillX, prizePillY + 12, '8 Pairs: Laptop Sleeve ★', {
+    const topPrizePairs = GAME_CONFIG.prizes.GRAND.minPairs || 6;
+    this.prizeStatusText = this.add.text(prizePillX, prizePillY + 12, `${topPrizePairs} Pairs: Top Prize ★`, {
       fontFamily: 'Outfit',
-      fontSize: '14px',
+      fontSize: '13px',
       fontWeight: '900',
       color: '#ffffff',
       align: 'center'
@@ -498,20 +499,19 @@ export class GameScene extends Phaser.Scene {
   updatePrizeBadge() {
     if (!this.prizeStatusText) return;
     const pairs = this.totalPairsMatched;
-    if (pairs >= 8) {
-      this.prizeStatusText.setText('★ TOP PRIZE UNLOCKED!\nStorage Pouch / Laptop Sleeve');
+    const topPairs = GAME_CONFIG.prizes.GRAND.minPairs || 6;
+
+    if (pairs >= topPairs) {
+      this.prizeStatusText.setText('★ TOP PRIZE UNLOCKED!\nAdapter, Sleeve or Cable');
       this.prizeStatusText.setColor('#facc15');
-    } else if (pairs >= 6) {
-      this.prizeStatusText.setText(`⚡ TIER 2 UNLOCKED!\nFast Charging Cable (8 for Top Prize)`);
-      this.prizeStatusText.setColor('#00d8f6');
     } else {
-      this.prizeStatusText.setText(`${pairs}/8 Pairs Matched\n(6 for Tier 2 • 8 for Top Prize)`);
+      this.prizeStatusText.setText(`${pairs}/${topPairs} Pairs Matched\n(${topPairs} Pairs for Top Prize)`);
       this.prizeStatusText.setColor('#ffffff');
     }
   }
 
   // ============================================================
-  // 4x4 CARD GRID LAYOUT (Responsive & Pixel-Perfect on Any Screen)
+  // 4x3 CARD GRID LAYOUT (Responsive & Pixel-Perfect on Any Screen)
   // ============================================================
   startRound(fastDeal = false) {
     this.cards.forEach(card => card.destroy());
@@ -530,8 +530,13 @@ export class GameScene extends Phaser.Scene {
     this.drawTimerBar();
     this.drawTimerCircle();
 
+    // Select approved threat vectors (e.g. 6 threats for 12 cards / 6 pairs)
+    const allThreats = [...GAME_CONFIG.cardItems];
+    Phaser.Utils.Array.Shuffle(allThreats);
+    const selectedThreats = allThreats.slice(0, this.totalPairsPerRound);
+
     // Generate highly unpredictable deck with guaranteed anti-clustering dispersion
-    this.deckData = this.generateUnpredictableDeck(GAME_CONFIG.cardItems);
+    this.deckData = this.generateUnpredictableDeck(selectedThreats);
     this.layoutCards();
 
     // Make immediately interactable and start countdown timer
@@ -546,6 +551,7 @@ export class GameScene extends Phaser.Scene {
   generateUnpredictableDeck(items) {
     const deck = [...items, ...items];
     const len = deck.length;
+    const cols = GAME_CONFIG.progression.cols || 4;
 
     // Cryptographic / high-entropy random integer
     const getRandomInt = (max) => {
@@ -568,8 +574,8 @@ export class GameScene extends Phaser.Scene {
     // 2. Anti-clustering dispersion solver (Manhattan distance >= 2)
     // Ensures cards sharing an edge (dist < 2) never share the same threat vector
     const isAdjacent = (idx1, idx2) => {
-      const r1 = Math.floor(idx1 / 4), c1 = idx1 % 4;
-      const r2 = Math.floor(idx2 / 4), c2 = idx2 % 4;
+      const r1 = Math.floor(idx1 / cols), c1 = idx1 % cols;
+      const r2 = Math.floor(idx2 / cols), c2 = idx2 % cols;
       return (Math.abs(r1 - r2) + Math.abs(c1 - c2)) < 2;
     };
 
@@ -650,8 +656,8 @@ export class GameScene extends Phaser.Scene {
       availableH = height - hudH - 36;
     }
 
-    const cols = 4;
-    const rows = 4;
+    const cols = GAME_CONFIG.progression.cols || 4;
+    const rows = GAME_CONFIG.progression.rows || 3;
     const gapX = Math.max(8, Math.min(availableW * 0.02, 36));
     const gapY = Math.max(8, Math.min(availableH * 0.02, 36));
 

@@ -6,9 +6,9 @@ export const GAME_CONFIG = {
 
   // Progressive difficulty scaling (No static presets)
   progression: {
-    cols: 4, // 4 by 4 grid (16 cards)
-    rows: 4,
-    pairs: 8,
+    cols: 4, // 4 by 3 grid (12 cards)
+    rows: 3,
+    pairs: 6,
     baseDuration: 20, // 20 seconds arcade rush
     minDuration: 10,
     timeReductionPerRound: 2, // 20s -> 18s -> 16s -> 14s...
@@ -18,24 +18,18 @@ export const GAME_CONFIG = {
     comboMultiplierStep: 0.5
   },
 
-  // In-Booth Prize Milestones
+  // In-Booth Prize Milestones (6 Pairs or Consolation)
   prizes: {
     GRAND: {
-      minPairs: 8,
-      tierName: 'GRAND PRIZE',
-      prizeItem: 'Multifunction Storage Pouch / Laptop Sleeve',
-      badge: 'TOP PRIZE'
-    },
-    TIER_2: {
       minPairs: 6,
-      tierName: 'TIER 2 PRIZE',
-      prizeItem: 'Multiheaded Cable',
-      badge: 'TIER 2'
+      tierName: 'TOP PRIZE',
+      prizeItem: 'Universal Adapter / Laptop Sleeve / Multi-Headed Cable',
+      badge: 'TOP PRIZE'
     },
     CONSOLATION: {
       minPairs: 0,
       tierName: 'CONSOLATION PRIZE',
-      prizeItem: 'SonicWall Pen & Canvas Bag',
+      prizeItem: 'Storage Pouch',
       badge: 'CONSOLATION'
     }
   },

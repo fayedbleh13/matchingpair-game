@@ -48,7 +48,7 @@ export class ResultOverlay extends Phaser.Scene {
     backdrop.fillRect(0, 0, width, height);
     this.bgContainer.add(backdrop);
 
-    // Prize Tier evaluation
+    // Prize Tier evaluation (6 Pairs for Top Prize, Consolation otherwise)
     let prize = GAME_CONFIG.prizes.CONSOLATION;
     let isGrand = false;
 
@@ -56,9 +56,6 @@ export class ResultOverlay extends Phaser.Scene {
       prize = GAME_CONFIG.prizes.GRAND;
       isGrand = true;
       this.createConfetti(40);
-    } else if (this.pairsMatched >= GAME_CONFIG.prizes.TIER_2.minPairs) {
-      prize = GAME_CONFIG.prizes.TIER_2;
-      this.createConfetti(25);
     }
 
     if (isLandscape) {
@@ -146,7 +143,8 @@ export class ResultOverlay extends Phaser.Scene {
     curY += prizeCardH + 18;
 
     // Performance Stats
-    const statsStr = `Score: ${this.score}   •   Pairs: ${this.pairsMatched}/8   •   Stage: ${this.roundReached}   •   Moves: ${this.moves}`;
+    const totalPairs = GAME_CONFIG.progression.pairs || 6;
+    const statsStr = `Score: ${this.score}   •   Successful Pairs: ${this.pairsMatched}/${totalPairs}   •   Moves: ${this.moves}`;
     const statsText = this.add.text(modalX, curY, statsStr, {
       fontFamily: 'Outfit',
       fontSize: '15px',
@@ -372,7 +370,8 @@ export class ResultOverlay extends Phaser.Scene {
     this.modalContainer.add([tierTag, prizeName, claimNotice]);
     curY += prizeCardH + 22 * s;
 
-    const statsStr = `Score: ${this.score}  •  Pairs: ${this.pairsMatched}/8  •  Moves: ${this.moves}`;
+    const totalPairs = GAME_CONFIG.progression.pairs || 6;
+    const statsStr = `Score: ${this.score}  •  Successful Pairs: ${this.pairsMatched}/${totalPairs}  •  Moves: ${this.moves}`;
     const statsText = this.add.text(modalX, curY, statsStr, {
       fontFamily: 'Outfit',
       fontSize: `${Math.floor(15 * s)}px`,

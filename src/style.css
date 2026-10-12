@@ -105,8 +105,9 @@ html, body {
 }
 
 .kiosk-btn-title {
-  font-size: clamp(15px, 4cqw, 64px);
+  font-size: clamp(20px, 5.2cqw, 82px);
   line-height: 1;
+  letter-spacing: 0.035em;
 }
 
 .kiosk-btn-sub {
@@ -129,6 +130,24 @@ html, body {
 .kiosk-step-header,
 .kiosk-tag-text {
   font-size: clamp(9.5px, 2.2cqw, 28px);
+}
+
+.kiosk-reward-card {
+  padding: clamp(7px, 1.8cqw, 30px) clamp(10px, 2.4cqw, 38px);
+  border-radius: clamp(10px, 2.4cqw, 28px);
+}
+
+.kiosk-reward-badge {
+  font-size: clamp(8px, 1.7cqw, 22px);
+  padding: clamp(1px, 0.35cqw, 6px) clamp(6px, 1.3cqw, 18px);
+}
+
+.kiosk-reward-rule {
+  font-size: clamp(9.5px, 2.3cqw, 30px);
+}
+
+.kiosk-reward-item {
+  font-size: clamp(11.5px, 2.8cqw, 38px);
 }
 
 .kiosk-step-card {

@@ -129,7 +129,7 @@ export class StartScene extends Phaser.Scene {
     this.uiContainer.add(title);
     curY += 32;
 
-    const sub = this.add.text(width / 2, curY, 'Test your speed & memory. Match cybersecurity pairs to win SonicWall prizes!', {
+    const sub = this.add.text(width / 2, curY, 'Test your speed & memory. Match all pairs to win SonicWall prizes!', {
       fontFamily: 'Outfit',
       fontSize: '15px',
       fontWeight: '600',
@@ -165,29 +165,22 @@ export class StartScene extends Phaser.Scene {
 
     const tiers = [
       {
-        badge: 'TOP PRIZE (8 PAIRS)',
-        item: 'Laptop Sleeve / Storage Pouch',
+        badge: 'TOP PRIZE (6 PAIRS)',
+        item: 'Adapter / Laptop Sleeve / Cable',
         color: '#facc15',
         bgColor: 0x1a1505,
         borderColor: 0xfacc15
       },
       {
-        badge: 'TIER 2 (6–7 PAIRS)',
-        item: 'Multiheaded Fast Charging Cable',
-        color: '#00d8f6',
-        bgColor: 0x051a24,
-        borderColor: 0x00d8f6
-      },
-      {
-        badge: 'CONSOLATION (<6 PAIRS)',
-        item: 'SonicWall Pen & Canvas Tote Bag',
+        badge: 'CONSOLATION',
+        item: 'Storage Pouch',
         color: '#94a3b8',
         bgColor: 0x0c1424,
         borderColor: 0x334155
       }
     ];
 
-    const tierRowH = (cardH - 74) / 3;
+    const tierRowH = (cardH - 74) / tiers.length;
     tiers.forEach((t, i) => {
       const rY = midY - cardH / 2 + 50 + i * tierRowH + tierRowH / 2;
       const rW = cardW - 32;
@@ -237,7 +230,7 @@ export class StartScene extends Phaser.Scene {
 
     const rules = [
       '⏱️  20s Countdown Timer — Fast matching is essential!',
-      '🃏  16 Cards (8 Pairs) — Tap to find matching cyber pairs',
+      '🃏  12 Cards (6 Pairs) — Tap to find matching cyber pairs',
       '⚡  +1.5s Time Bonus — Earn extra seconds per match',
       '🔥  Combo Multipliers — Rapid streaks multiply score'
     ];
@@ -387,12 +380,11 @@ export class StartScene extends Phaser.Scene {
     this.uiContainer.add(prizeHdr);
 
     const tiers = [
-      { badge: 'TOP PRIZE (8 PAIRS)', item: 'Laptop Sleeve / Storage Pouch', color: '#facc15', bg: 0x1a1505, border: 0xfacc15 },
-      { badge: 'TIER 2 (6–7 PAIRS)', item: 'Multiheaded Fast Charging Cable', color: '#00d8f6', bg: 0x051a24, border: 0x00d8f6 },
-      { badge: 'CONSOLATION (<6 PAIRS)', item: 'SonicWall Pen & Canvas Tote Bag', color: '#94a3b8', bg: 0x0c1424, border: 0x334155 }
+      { badge: 'TOP PRIZE (6 PAIRS)', item: 'Adapter / Laptop Sleeve / Cable', color: '#facc15', bg: 0x1a1505, border: 0xfacc15 },
+      { badge: 'CONSOLATION', item: 'Storage Pouch', color: '#94a3b8', bg: 0x0c1424, border: 0x334155 }
     ];
 
-    const rowH = (prizeH - 80 * s) / 3;
+    const rowH = (prizeH - 80 * s) / tiers.length;
     tiers.forEach((t, i) => {
       const rY = prizeBoxY - prizeH / 2 + 58 * s + i * rowH + rowH / 2;
       const rW = prizeW - 32 * s;
@@ -443,7 +435,7 @@ export class StartScene extends Phaser.Scene {
 
     const rules = [
       '⏱️  20 Seconds Base Timer — Fast matching is essential!',
-      '🃏  16 Cards (8 Pairs) — Tap to find matching cyber icons',
+      '🃏  12 Cards (6 Pairs) — Tap to find matching cyber icons',
       '⚡  +1.5s Time Bonus — Extra seconds per correct match',
       '🔥  Combo Multipliers — Rapid streaks multiply your score'
     ];

@@ -86,6 +86,91 @@ html, body {
   line-height: 1.35;
 }
 
+/* ==========================================================================
+   START SCREEN QR CODE & LINKEDIN FOLLOW CTA
+   ========================================================================== */
+.kiosk-qr-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(4px, 0.9cqw, 14px);
+  margin-top: clamp(2px, 0.5cqw, 10px);
+  margin-bottom: clamp(2px, 0.5cqw, 10px);
+}
+
+.kiosk-qr-box {
+  width: clamp(75px, 19.3cqw, 418px);
+  height: clamp(75px, 19.3cqw, 418px);
+  padding: clamp(3px, 0.8cqw, 15px);
+  background: #ffffff;
+  border-radius: clamp(10px, 2.2cqw, 32px);
+  box-shadow: 0 0 clamp(12px, 2.5cqw, 40px) rgba(255, 94, 0, 0.45),
+              0 6px clamp(12px, 2.5cqw, 36px) rgba(0, 0, 0, 0.65);
+  border: clamp(2px, 0.4cqw, 6px) solid #ff5e00;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.kiosk-qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: clamp(6px, 1.4cqw, 22px);
+}
+
+.kiosk-linkedin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(4px, 0.9cqw, 12px);
+  padding: clamp(3.5px, 0.7cqw, 12px) clamp(10px, 2.2cqw, 30px);
+  background: rgba(10, 102, 194, 0.18);
+  border: 1px solid rgba(10, 102, 194, 0.6);
+  border-radius: 9999px;
+  box-shadow: 0 2px clamp(6px, 1.2cqw, 20px) rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+}
+
+.kiosk-linkedin-icon {
+  width: clamp(14px, 2.8cqw, 42px);
+  height: clamp(14px, 2.8cqw, 42px);
+}
+
+.kiosk-linkedin-text {
+  font-size: clamp(9.5px, 2cqw, 30px);
+  font-weight: 800;
+  letter-spacing: 0.035em;
+  color: #ffffff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+@media (max-width: 600px) {
+  .kiosk-qr-box {
+    width: clamp(55px, 14cqw, 70px);
+    height: clamp(55px, 14cqw, 70px);
+    padding: 2.5px;
+  }
+  .kiosk-qr-container {
+    gap: 3px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  .kiosk-linkedin-badge {
+    padding: 2.5px 8px;
+    gap: 3px;
+  }
+  .kiosk-linkedin-icon {
+    width: 12px;
+    height: 12px;
+  }
+  .kiosk-linkedin-text {
+    font-size: 8.5px;
+  }
+}
+
 .kiosk-btn {
   padding: clamp(10px, 2.4cqw, 42px) clamp(14px, 3.2cqw, 56px);
   border-radius: clamp(14px, 3cqw, 42px);

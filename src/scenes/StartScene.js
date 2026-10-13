@@ -25,12 +25,21 @@ export class StartScene extends Phaser.Scene {
     sounds.playMenuMusic();
 
     // 2. Universal user gesture unlock fallback if browser blocked immediate autoplay
+    const audioEvents = ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click'];
     const unlockAudio = () => {
-      sounds.playMenuMusic();
+      if (this.scene && this.scene.isActive('StartScene')) {
+        sounds.playMenuMusic();
+      }
     };
     this.input.once('pointerdown', unlockAudio);
-    ['pointerdown', 'touchstart', 'mousedown', 'keydown', 'click'].forEach(evt => {
+    audioEvents.forEach(evt => {
       window.addEventListener(evt, unlockAudio, { once: true, passive: true });
+    });
+
+    this.events.once('shutdown', () => {
+      audioEvents.forEach(evt => {
+        window.removeEventListener(evt, unlockAudio);
+      });
     });
 
     this.scale.on('resize', () => {

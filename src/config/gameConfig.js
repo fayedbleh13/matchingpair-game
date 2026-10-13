@@ -13,7 +13,7 @@ export const GAME_CONFIG = {
     minDuration: 10,
     timeReductionPerRound: 2, // 20s -> 18s -> 16s -> 14s...
     timeBonusPerMatch: 0,
-    previewDuration: 1.2,
+    previewDuration: 3,
     pointsPerMatch: 150,
     comboMultiplierStep: 0.5
   },

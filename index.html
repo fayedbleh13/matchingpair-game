@@ -470,11 +470,15 @@
 
         // 1. START GAME HANDLER -> Switches soundtrack to The_Final_Combo.mp3
         if (startBtn) {
-          startBtn.addEventListener('pointerdown', function() {
+          startBtn.addEventListener('pointerdown', function(e) {
+            e.stopPropagation();
             if (navigator.vibrate) navigator.vibrate(20);
           });
-          startBtn.addEventListener('click', function() {
+          startBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
             if (navigator.vibrate) navigator.vibrate(20);
+            startOverlay.classList.add('hidden');
+
             if (window.sounds) {
               window.sounds.playClick();
               window.sounds.playGameMusic();
@@ -482,7 +486,6 @@
             startBtn.style.transform = 'scale(0.97)';
             setTimeout(() => {
               startBtn.style.transform = 'scale(1)';
-              startOverlay.classList.add('hidden');
               
               if (window.__game) {
                 const startScene = window.__game.scene.getScene('StartScene');
@@ -491,7 +494,7 @@
                 }
                 window.__game.scene.start('GameScene');
               }
-            }, 100);
+            }, 80);
           });
         }
 

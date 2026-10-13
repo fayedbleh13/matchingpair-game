@@ -3,6 +3,7 @@ import { GAME_CONFIG } from '../config/gameConfig.js';
 import { Card } from '../objects/Card.js';
 import { sounds } from '../utils/sounds.js';
 import { preloadGameAssets, createGameAssets } from '../utils/assets.js';
+import { Storage } from '../utils/storage.js';
 
 export class GameScene extends Phaser.Scene {
   constructor() {
@@ -31,6 +32,11 @@ export class GameScene extends Phaser.Scene {
     this.totalScore = 0;
 
     this.calculateRoundDuration();
+
+    this.previewEvent = null;
+    this.previewContainer = null;
+    this.isPreviewing = false;
+    this.previewSecondsLeft = 0;
 
     this.isGameOver = false;
     this.canClick = true;
@@ -539,10 +545,19 @@ export class GameScene extends Phaser.Scene {
     this.deckData = this.generateUnpredictableDeck(selectedThreats);
     this.layoutCards();
 
-    // Make immediately interactable and start countdown timer
-    this.canClick = true;
-    this.startTimer();
-    this.dealCards(fastDeal);
+    const settings = Storage.getSettings();
+    const previewEnabled = settings.previewEnabled !== false;
+    const previewDuration = GAME_CONFIG.progression.previewDuration || 3;
+
+    if (previewEnabled && previewDuration > 0) {
+      this.canClick = false;
+      this.dealCards(fastDeal, true);
+      this.startPreviewSequence(previewDuration);
+    } else {
+      this.canClick = true;
+      this.startTimer();
+      this.dealCards(fastDeal, false);
+    }
   }
 
   // High-entropy shuffle with anti-clustering dispersion:
@@ -699,15 +714,25 @@ export class GameScene extends Phaser.Scene {
         card.resize(cardW, cardH);
       });
     }
+
+    this.gridBounds = {
+      cardW,
+      cardH,
+      startX,
+      startY,
+      gridTotalW,
+      gridTotalH
+    };
   }
 
   handleResize() {
     this.createBackground();
     this.createHUD();
     this.layoutCards();
+    this.positionPreviewBanner();
   }
 
-  dealCards(fastDeal = false) {
+  dealCards(fastDeal = false, showFaceUp = false) {
     // Unpredictable non-linear arcade dealing sequence across matrix
     const order = Array.from({ length: this.cards.length }, (_, i) => i);
     for (let i = order.length - 1; i > 0; i--) {
@@ -717,6 +742,9 @@ export class GameScene extends Phaser.Scene {
 
     order.forEach((cardIndex, seqIndex) => {
       const card = this.cards[cardIndex];
+      if (showFaceUp) {
+        card.flip(true, true);
+      }
       card.setAlpha(0);
       card.setScale(0.85);
       this.time.delayedCall(seqIndex * (fastDeal ? 10 : 20), () => {
@@ -730,6 +758,175 @@ export class GameScene extends Phaser.Scene {
           ease: 'Back.easeOut'
         });
       });
+    });
+  }
+
+  // ============================================================
+  // INITIAL CARD MEMORIZATION PREVIEW FLOW
+  // ============================================================
+  startPreviewSequence(duration = 3) {
+    this.stopPreviewSequence();
+    this.isPreviewing = true;
+    this.canClick = false;
+    this.previewSecondsLeft = duration;
+
+    // Show preview countdown in HUD timer card
+    if (this.timerText) {
+      this.timerText.setText(`${this.previewSecondsLeft}s`);
+      this.timerText.setColor('#facc15');
+    }
+
+    this.createPreviewBanner();
+
+    this.previewEvent = this.time.addEvent({
+      delay: 1000,
+      repeat: duration - 1,
+      callback: () => {
+        if (this.isGameOver || this.isPaused || !this.isPreviewing) return;
+        this.previewSecondsLeft--;
+
+        if (this.previewSecondsLeft > 0) {
+          sounds.playTap();
+          if (this.timerText) {
+            this.timerText.setText(`${this.previewSecondsLeft}s`);
+            this.timerText.setColor('#facc15');
+          }
+          this.updatePreviewBanner();
+        } else {
+          this.finishPreviewSequence();
+        }
+      }
+    });
+  }
+
+  stopPreviewSequence() {
+    this.isPreviewing = false;
+    if (this.previewEvent) {
+      this.previewEvent.remove();
+      this.previewEvent = null;
+    }
+    if (this.previewContainer) {
+      this.previewContainer.destroy();
+      this.previewContainer = null;
+    }
+  }
+
+  createPreviewBanner() {
+    if (this.previewContainer) {
+      this.previewContainer.destroy();
+    }
+    this.previewContainer = this.add.container(0, 0);
+
+    const bannerBg = this.add.graphics();
+    this.previewBannerBg = bannerBg;
+
+    this.previewBannerText = this.add.text(0, 0, '', {
+      fontFamily: 'Outfit',
+      fontWeight: '900',
+      color: '#ffffff',
+      letterSpacing: 1.5,
+      align: 'center'
+    }).setOrigin(0.5);
+
+    this.previewContainer.add([bannerBg, this.previewBannerText]);
+    this.updatePreviewBanner();
+    this.positionPreviewBanner();
+
+    // Subtle entrance pop
+    this.previewContainer.setScale(0.85);
+    this.previewContainer.setAlpha(0);
+    this.tweens.add({
+      targets: this.previewContainer,
+      scaleX: 1,
+      scaleY: 1,
+      alpha: 1,
+      duration: 220,
+      ease: 'Back.easeOut'
+    });
+  }
+
+  updatePreviewBanner() {
+    if (!this.previewBannerText || !this.previewBannerBg) return;
+
+    const seconds = this.previewSecondsLeft;
+    this.previewBannerText.setText(`👁️ MEMORIZE THREATS • ${seconds}s`);
+    this.previewBannerText.setFontSize('16px');
+    this.previewBannerText.setColor('#ffffff');
+
+    // Punch animation on text each second
+    this.tweens.add({
+      targets: this.previewBannerText,
+      scaleX: { from: 1.15, to: 1 },
+      scaleY: { from: 1.15, to: 1 },
+      duration: 180,
+      ease: 'Quad.easeOut'
+    });
+
+    const padX = 24;
+    const bannerW = Math.max(280, this.previewBannerText.width + padX * 2);
+    const bannerH = 42;
+
+    this.previewBannerBg.clear();
+    // Dark cyber fill
+    this.previewBannerBg.fillStyle(0x071120, 0.94);
+    this.previewBannerBg.fillRoundedRect(-bannerW / 2, -bannerH / 2, bannerW, bannerH, 21);
+    // Neon Amber/Orange cyber border
+    this.previewBannerBg.lineStyle(2, 0xf05423, 0.95);
+    this.previewBannerBg.strokeRoundedRect(-bannerW / 2, -bannerH / 2, bannerW, bannerH, 21);
+    // Glow line
+    this.previewBannerBg.lineStyle(4, 0xf05423, 0.25);
+    this.previewBannerBg.strokeRoundedRect(-bannerW / 2 - 2, -bannerH / 2 - 2, bannerW + 4, bannerH + 4, 23);
+  }
+
+  positionPreviewBanner() {
+    if (!this.previewContainer) return;
+    const { width, height } = this.scale;
+    const isLandscape = width > height;
+
+    if (isLandscape) {
+      const panelW = Math.max(340, Math.min(Math.floor(width * 0.28), 440));
+      const playAreaCenter = panelW + (width - panelW) / 2;
+      const topY = this.gridBounds ? Math.max(32, this.gridBounds.startY - this.gridBounds.cardH / 2 - 32) : 48;
+      this.previewContainer.setPosition(playAreaCenter, topY);
+    } else {
+      const s = Math.max(0.65, Math.min(width / 1080, 2.2));
+      const hudH = Math.min(height * 0.20, 390 * s);
+      const topY = this.gridBounds ? Math.max(hudH + 28, this.gridBounds.startY - this.gridBounds.cardH / 2 - 28) : hudH + 28;
+      this.previewContainer.setPosition(width / 2, topY);
+    }
+  }
+
+  finishPreviewSequence() {
+    this.stopPreviewSequence();
+
+    if (this.timerText) {
+      this.timerText.setText('GO!');
+      this.timerText.setColor('#10b981');
+    }
+
+    // Play flip sound & cascade-flip all cards face-down smoothly
+    sounds.playFlip();
+    this.cards.forEach((card, index) => {
+      this.time.delayedCall(index * 20, () => {
+        if (card && !card.isMatched) {
+          card.flip(false);
+        }
+      });
+    });
+
+    const flipFinishDelay = (this.cards.length * 20) + 160;
+    this.time.delayedCall(flipFinishDelay, () => {
+      if (this.isGameOver || this.isPaused) return;
+
+      if (this.timerText) {
+        this.timerText.setText(`${Math.ceil(this.timeLeft)}s`);
+        this.timerText.setColor('#00d8f6');
+      }
+      this.drawTimerBar();
+      this.drawTimerCircle();
+
+      this.canClick = true;
+      this.startTimer();
     });
   }
 
@@ -974,6 +1171,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   restartGame() {
+    this.stopPreviewSequence();
     if (this.timerEvent) this.timerEvent.remove();
     this.scene.stop('ResultOverlay');
     sounds.playGameMusic();
@@ -981,6 +1179,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   returnToMenu() {
+    this.stopPreviewSequence();
     if (this.timerEvent) this.timerEvent.remove();
     this.scene.stop('ResultOverlay');
     sounds.playMenuMusic();

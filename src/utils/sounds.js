@@ -88,10 +88,24 @@ class SoundManager {
     Storage.saveSettings({ sfxMuted: this.sfxMuted });
   }
 
+  stopSynthBGM() {
+    if (this.bgmTimer) {
+      clearTimeout(this.bgmTimer);
+      this.bgmTimer = null;
+    }
+  }
+
   // --- 1. Start Menu Background Music: bgm.mp3 ---
   playMenuMusic() {
     this.init();
-    if (this.currentTrack === 'menu' && this.menuAudio && !this.menuAudio.paused) return;
+    const settings = Storage.getSettings();
+    if (typeof settings.musicVolume === 'number') this.musicVolume = settings.musicVolume;
+    if (typeof settings.musicMuted === 'boolean') this.musicMuted = settings.musicMuted;
+
+    if (this.currentTrack === 'menu' && this.menuAudio && !this.menuAudio.paused) {
+      this.menuAudio.volume = this.musicMuted ? 0 : this.musicVolume;
+      return;
+    }
     this.currentTrack = 'menu';
     this.bgmRunning = true;
 
@@ -115,11 +129,11 @@ class SoundManager {
           this.stopSynthBGM();
         })
         .catch((err) => {
-          // Autoplay policy prevented immediate unmuted playback until user interaction
           console.warn('[Audio] Autoplay blocked by browser policy; queued for first gesture:', err.message);
           
           const unlockHandler = () => {
             if (this.currentTrack === 'menu' && this.menuAudio && this.menuAudio.paused) {
+              this.menuAudio.volume = this.musicMuted ? 0 : this.musicVolume;
               this.menuAudio.play().then(() => this.stopSynthBGM()).catch(() => {});
             }
             if (this.ctx && this.ctx.state === 'suspended') {
@@ -140,7 +154,14 @@ class SoundManager {
   // --- 2. Game & Result Screen Music: The_Final_Combo.mp3 ---
   playGameMusic() {
     this.init();
-    if (this.currentTrack === 'game' && this.gameAudio && !this.gameAudio.paused) return;
+    const settings = Storage.getSettings();
+    if (typeof settings.musicVolume === 'number') this.musicVolume = settings.musicVolume;
+    if (typeof settings.musicMuted === 'boolean') this.musicMuted = settings.musicMuted;
+
+    if (this.currentTrack === 'game' && this.gameAudio && !this.gameAudio.paused) {
+      this.gameAudio.volume = this.musicMuted ? 0 : this.musicVolume;
+      return;
+    }
     this.currentTrack = 'game';
     this.bgmRunning = true;
 
@@ -165,9 +186,24 @@ class SoundManager {
         })
         .catch((err) => {
           console.warn('[Audio] Autoplay blocked for game music:', err.message);
+
+          // Resilient fallback: if The_Final_Combo.mp3 fails, keep menu track playing so the game is never silent!
+          if (this.menuAudio) {
+            this.menuAudio.volume = this.musicMuted ? 0 : this.musicVolume;
+            this.menuAudio.play().catch(() => {});
+          }
+
           const unlockHandler = () => {
-            if (this.currentTrack === 'game' && this.gameAudio && this.gameAudio.paused) {
-              this.gameAudio.play().then(() => this.stopSynthBGM()).catch(() => {});
+            if (this.currentTrack === 'game') {
+              if (this.gameAudio) {
+                this.gameAudio.volume = this.musicMuted ? 0 : this.musicVolume;
+                this.gameAudio.play().then(() => {
+                  if (this.menuAudio) this.menuAudio.pause();
+                  this.stopSynthBGM();
+                }).catch(() => {
+                  if (this.menuAudio) this.menuAudio.play().catch(() => {});
+                });
+              }
             }
             if (this.ctx && this.ctx.state === 'suspended') {
               this.ctx.resume().catch(() => {});
